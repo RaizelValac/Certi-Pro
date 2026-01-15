@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certi-Pro Certificate Views</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Body Styling to match background color and font */
+        body {
+            background-color: #F4F5F7; /* Light gray background from image */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #172B4D;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #F4F5F7;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .brand-icon {
+            color: #4C9AFF; /* Blue color for the cube icon */
+            font-size: 2.2rem;
+            margin-right: 10px;
+        }
+        .nav-link {
+            color: #172B4D;
+            font-weight: 500;
+            margin-left: 20px;
+            font-size: 1.0rem;
+        }
+        .nav-icons .fa-icon {
+            font-size: 1.2rem;
+            margin-left: 25px;
+            color: #42526E;
+            cursor: pointer;
+        }
+
+        /* Header Section Styling */
+        .back-link {
+            color: #4C9AFF;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .page-title {
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .page-subtitle {
+            color: #6B778C;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Filters Section */
+        .search-input {
+            background-color: #FFFFFF;
+            border: 1px solid #DFE1E6;
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            max-width: 300px;
+        }
+        .filter-btn {
+            background-color: #FFFFFF;
+            border: 1px solid #DFE1E6;
+            color: #42526E;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            margin-left: 10px;
+        }
+        .filter-btn.active {
+            background-color: #F4F5F7; /* Slightly darker for active state specifically for "All" in image */
+        }
+
+        /* Main Content Cards */
+        .card-container {
+            margin-top: 30px;
+        }
+        .course-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            padding: 25px;
+        }
+        .course-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+        .course-subtitle {
+            color: #6B778C;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        /* Inner Data Blocks (Views, Date, QR) */
+        .data-block {
+            background-color: #FFFFFF;
+            border: 1px solid #EBECF0;
+            border-radius: 12px;
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .data-label {
+            color: #172B4D;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .data-value-large {
+            font-size: 2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: baseline;
+        }
+        .data-value-large span {
+            font-size: 0.9rem;
+            color: #6B778C;
+            font-weight: 400;
+            margin-left: 5px;
+        }
+        .data-value-date {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        /* QR Code Specific Styling */
+        .qr-block-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qr-code-text {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .qr-image {
+            width: 60px;
+            height: 60px;
+            /* Placeholder image for QR code - using a generic one */
+            background-image: url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example');
+            background-size: cover;
+            border-radius: 4px;
+        }
+
+         .navbar-brand span.fs-5,
+        .navbar-brand i.fs-4 {
+        font-size: 26px !important; 
+        }
+/* Aur icon ka colour */
+        .navbar-brand i.fs-4 {
+          color: #4A90E2 !important;
+        }
+
+        .navbar-brand {
+    /* ... existing rules ... */
+    margin-left: 20px; /* Ya koi bhi value jo aapko theek lage (e.g., 15px, 25px) */
+}
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+       <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark" href="#">
+                <i class="fas fa-cube fs-4"></i>
+                <span class="fs-5">Certi-Pro</span>
+            </a>
+            
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav mr-auto">
+                   <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="viewcert.html">View Certificates</a>
+                    </li>
+                </ul>
+                <div class="ms-3 d-flex align-items-center gap-3">
+                    <button class="btn border-0"><i class="far fa-bell fs-4"></i></button>
+                    <button class="btn border-0"><i class="far fa-user-circle fs-4"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <a href="dashboard.html" class="back-link">
+                    <i class="fas fa-arrow-left me-2"></i>Back
+                </a>
+                <h2 class="page-title">All Certificate QR Views</h2>
+                <p class="page-subtitle">Detailed tracking of your shared certificates.</p>
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-4">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <input type="text" class="form-control search-input" placeholder="Search...">
+            </div>
+            <div class="col-md-6 d-flex justify-content-md-end justify-content-start">
+                <button class="btn filter-btn">All</button>
+                <button class="btn filter-btn">Most Views</button>
+                <button class="btn filter-btn">Least Views</button>
+            </div>
+        </div>
+
+        <div class="card-container">
+            <div class="card course-card">
+                <div class="card-body p-0">
+                    <h5 class="course-title">Advanced JavaScript</h5>
+                    <p class="course-subtitle">course information</p>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Total views</div>
+                                <div class="data-value-large">
+                                    112 <span>views</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Date of Issue</div>
+                                <div class="data-value-date">
+                                    20-Jan-2024
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">QR Code</div>
+                                <div class="qr-block-content">
+                                    <div class="qr-code-text">abcd-049-12z</div>
+                                    <div class="qr-image"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card course-card">
+                <div class="card-body p-0">
+                    <h5 class="course-title">Python for Data Science</h5>
+                    <p class="course-subtitle">course information</p>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Total views</div>
+                                <div class="data-value-large">
+                                    88 <span>views</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Date of Issue</div>
+                                <div class="data-value-date">
+                                    06-Mar-2019
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">QR Code</div>
+                                <div class="qr-block-content">
+                                    <div class="qr-code-text">abcd-049-12z</div>
+                                    <div class="qr-image"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card course-card">
+                <div class="card-body p-0">
+                    <h5 class="course-title">SQL Basics</h5>
+                    <p class="course-subtitle">course information</p>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Total views</div>
+                                <div class="data-value-large">
+                                    57 <span>views</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Date of Issue</div>
+                                <div class="data-value-date">
+                                    17-Dec-2024
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">QR Code</div>
+                                <div class="qr-block-content">
+                                    <div class="qr-code-text">abcd-049-12z</div>
+                                    <div class="qr-image"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="card course-card">
+                <div class="card-body p-0">
+                    <h5 class="course-title">Advanced Python</h5>
+                    <p class="course-subtitle">course information</p>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Total views</div>
+                                <div class="data-value-large">
+                                    152 <span>views</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">Date of Issue</div>
+                                <div class="data-value-date">
+                                    26-Jan-2023
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="data-block">
+                                <div class="data-label">QR Code</div>
+                                <div class="qr-block-content">
+                                    <div class="qr-code-text">abcd-049-12z</div>
+                                    <div class="qr-image"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ==========================
+     1️⃣ Search Function
+  ========================== */
+  const searchInput = document.querySelector('.search-input');
+  const cards = document.querySelectorAll('.course-card');
+
+  if (searchInput) {
+    searchInput.addEventListener('keyup', () => {
+      const value = searchInput.value.toLowerCase();
+      cards.forEach(card => {
+        const title = card.querySelector('.course-title').innerText.toLowerCase();
+        card.style.display = title.includes(value) ? 'block' : 'none';
+      });
+    });
+  }
+
+  /* ==========================
+     2️⃣ Filter Buttons
+  ========================== */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (btn.innerText === 'All') {
+        cards.forEach(card => card.style.display = 'block');
+      }
+
+      if (btn.innerText === 'Most Views') {
+        sortCards(true);
+      }
+
+      if (btn.innerText === 'Least Views') {
+        sortCards(false);
+      }
+    });
+  });
+
+  function sortCards(desc = true) {
+    const container = document.querySelector('.card-container');
+    const sorted = [...cards].sort((a, b) => {
+      const aViews = parseInt(a.querySelector('.data-value-large').innerText);
+      const bViews = parseInt(b.querySelector('.data-value-large').innerText);
+      return desc ? bViews - aViews : aViews - bViews;
+    });
+
+    sorted.forEach(card => container.appendChild(card));
+  }
+
+  /* ==========================
+     3️⃣ QR Views Count Animation (ONCE)
+  ========================== */
+  function animateNumbers() {
+    document.querySelectorAll('.data-value-large').forEach(el => {
+
+      if (el.dataset.animated) return;
+      el.dataset.animated = true;
+
+      const finalValue = parseInt(el.innerText);
+      let current = 0;
+      const speed = finalValue / 40;
+
+      const counter = setInterval(() => {
+        current += speed;
+        if (current >= finalValue) {
+          el.childNodes[0].nodeValue = finalValue + ' ';
+          clearInterval(counter);
+        } else {
+          el.childNodes[0].nodeValue = Math.floor(current) + ' ';
+        }
+      }, 30);
+    });
+  }
+
+  function isInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom >= 0;
+  }
+
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.course-card').forEach(card => {
+      if (isInViewport(card)) animateNumbers();
+    });
+  });
+
+  animateNumbers(); // run on load also
+
+  /* ==========================
+     4️⃣ Hover Effect
+  ========================== */
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'scale(1.02)';
+      card.style.transition = '0.3s';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'scale(1)';
+    });
+  });
+
+  /* ==========================
+     5️⃣ Navbar Icons
+  ========================== */
+  const bell = document.querySelector('.fa-bell');
+  const user = document.querySelector('.fa-user-circle');
+
+  if (bell) bell.addEventListener('click', () => {
+    alert('No new notifications (demo)');
+  });
+
+  if (user) user.addEventListener('click', () => {
+    alert('Profile & logout coming soon');
+  });
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certi-Pro | User Profile</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+/* ================= FILE 1 THEME (LOCKED) ================= */
+body{
+    background:#F4F5F7;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    color:#172B4D;
+}
+.navbar{background:#F4F5F7;padding:1rem 0}
+.navbar-brand{font-weight:700;margin-left:20px}
+.navbar-brand i{color:#4A90E2}
+.nav-link{color:#172B4D;font-weight:500;margin-left:20px}
+
+.sidebar-card{
+    background:#fff;border-radius:12px;padding:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,.02)
+}
+.nav-btn{
+    display:flex;align-items:center;width:100%;
+    padding:12px 15px;margin-bottom:6px;
+    border:none;background:none;
+    font-weight:600;border-radius:8px;
+    color:#42526E;text-align:left
+}
+.nav-btn i{width:25px;color:#4C9AFF}
+.nav-btn:hover{background:#EBECF0}
+.nav-btn.active{background:#E6F0FF;color:#0052CC}
+
+.profile-header-card{
+    background:#fff;border-radius:12px;
+    padding:30px;border-left:8px solid #0d6efd;
+    margin-bottom:25px
+}
+.avatar-lg{
+    width:90px;height:90px;border-radius:12px;
+    border:3px solid #EBECF0;
+    object-fit: cover;
+}
+
+.stat-item{
+    background:#fff;padding:20px;border-radius:12px;
+    text-align:center
+}
+.stat-item h3{font-weight:800;margin:0}
+
+.content-card{
+    background:#fff;border-radius:12px;
+    padding:25px;margin-bottom:20px
+}
+
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+.btn-custom{
+    background:#0052CC;color:#fff;
+    border-radius:6px;font-weight:600
+}
+.btn-custom:hover{background:#0747A6;color:#fff}
+
+.table th{font-size:12px;color:#6B778C;text-transform:uppercase}
+.badge{font-size:.75rem}
+
+.back-link {
+    color: #4C9AFF;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.navbar {
+    background-color: #F4F5F7;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.nav-link {
+    color: #172B4D;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.navbar-brand i {
+    color: #4A90E2;
+}
+
+/* ======================================================= */
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark" href="#">
+            <i class="fas fa-cube fs-4"></i>
+            <span class="fs-5">Certi-Pro</span>
+        </a>
+        
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav mr-auto">
+               <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="viewcert.html">View Certificates</a>
+                </li>
+            </ul>
+            <div class="ms-3 d-flex align-items-center gap-3">
+                <div class="position-relative">
+    <button class="btn border-0" id="bellBtn">
+        <i class="far fa-bell fs-4"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            2
+        </span>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="notificationBox" class="card p-3 shadow"
+         style="display:none; position:absolute; right:0; top:45px; width:260px; z-index:1000;">
+        <h6 class="fw-bold mb-2">Notifications</h6>
+        <div class="small text-muted mb-2">✔ Certificate Verified</div>
+        <div class="small text-muted mb-2">🎉 New Certificate Issued</div>
+        <hr>
+        
+    </div>
+</div>
+
+                <div class="position-relative">
+    <button class="btn border-0" id="profileBtn">
+        <i class="far fa-user-circle fs-4"></i>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="profileMenu" class="card p-2 shadow"
+         style="display:none; position:absolute; right:0; top:45px; width:180px; z-index:1000;">
+        <a href="user_profile.html" class="dropdown-item">My Profile</a>
+        <a href="index.html" id="logoutBtn" class="dropdown-item text-danger">Logout</a>
+    </div>
+</div>
+   </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container py-4">
+   <a href="dashboard.html" class="back-link">
+        <i class="fas fa-arrow-left me-2"></i>Back
+    </a>
+<div class="row">
+
+<!-- SIDEBAR -->
+<div class="col-lg-3">
+<div class="sidebar-card h-100">
+<button class="nav-btn active" onclick="showTab('overview',this)">
+<i class="fas fa-th-large"></i> Overview
+</button>
+<button class="nav-btn" onclick="showTab('certificates',this)">
+<i class="fas fa-certificate"></i> View Certificates
+</button>
+<button class="nav-btn" onclick="showTab('skills',this)">
+<i class="fas fa-chart-line"></i> Skill Progress
+</button>
+<button class="nav-btn" onclick="showTab('security',this)">
+<i class="fas fa-shield-alt"></i> Blockchain Logs
+</button>
+
+<!-- CONTACT BUTTON -->
+<button class="nav-btn" data-bs-toggle="modal" data-bs-target="#contactModal">
+<i class="fas fa-address-book"></i> Contact Info
+</button>
+
+<button class="nav-btn" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+<i class="fas fa-user-edit"></i> Edit Profile
+</button>
+
+
+</a>
+</div>
+</div>
+
+<!-- MAIN -->
+<div class="col-lg-9">
+
+<!-- ================= OVERVIEW ================= -->
+<div id="overview" class="tab-content active">
+<div class="profile-header-card d-flex gap-4 align-items-center">
+<img src="https://i.pravatar.cc/150?img=32" class="avatar-lg" id="profileAvatar">
+<div>
+<h2 class="fw-bold" id="displayName">
+Haya <i class="fas fa-check-circle text-primary fs-5"></i>
+</h2>
+<p class="text-muted" id="displayBio">
+Senior Developer • Blockchain Learner
+</p>
+</div>
+</div>
+
+<div class="row g-3 mb-4">
+<div class="col-md-3"><div class="stat-item"><small>Certificates</small><h3 id="certCount">06</h3></div></div>
+<div class="col-md-3"><div class="stat-item"><small>Tests</small><h3>06</h3></div></div>
+<div class="col-md-3"><div class="stat-item"><small>QR Views</small><h3>02</h3></div></div>
+<div class="col-md-3"><div class="stat-item"><small>Status</small><h3 style="color:#36B37E">Active</h3></div></div>
+</div>
+
+<div class="content-card">
+<h5 class="fw-bold mb-3">Activity Log</h5>
+<ul class="mb-0">
+<li>Advanced React – Verified on Blockchain</li>
+<li>Cyber Security Essentials – Issued</li>
+<li>Profile Updated Successfully</li>
+</ul>
+</div>
+
+<div class="content-card">
+<h5 class="fw-bold mb-3">Achievement Badges</h5>
+<div class="row text-center">
+<div class="col-4"><i class="fas fa-user-graduate fs-3 text-primary"></i><p class="small fw-bold">Early Adopter</p></div>
+<div class="col-4"><i class="fas fa-bolt fs-3 text-primary"></i><p class="small fw-bold">Fast Learner</p></div>
+<div class="col-4"><i class="fas fa-crown fs-3 text-muted"></i><p class="small fw-bold">Elite (Locked)</p></div>
+</div>
+</div>
+</div>
+
+<!-- ================= CERTIFICATES ================= -->
+<div id="certificates" class="tab-content">
+<div class="content-card">
+<div class="d-flex justify-content-between mb-3">
+<h5 class="fw-bold">Certificates Repository</h5>
+<button class="btn btn-sm btn-custom" onclick="downloadAll()">Download All</button>
+</div>
+
+<input type="text" class="form-control mb-3" placeholder="Search certificates" onkeyup="filterCerts(this.value)">
+
+<table class="table table-hover align-middle">
+<thead>
+<tr>
+<th>Asset</th><th>Issuer</th><th>Status</th><th>Blockchain</th><th>Action</th>
+</tr>
+</thead>
+<tbody id="certTable">
+<tr>
+<td class="fw-bold">Advanced React Architecture</td>
+<td>Meta</td>
+<td><span class="badge bg-success">Verified</span></td>
+<td><code>0x71C9…8A12</code></td>
+<td>
+<button class="btn btn-sm btn-light" onclick="previewCert('Advanced React')">View</button>
+<button class="btn btn-sm btn-light" onclick="verifyChain('0x71C9…8A12')">Verify</button>
+<button class="btn btn-sm btn-light" onclick="shareLink()">Share</button>
+<!-- CHANGED TO TRIGGER MODAL -->
+<button class="btn btn-sm btn-light text-primary" onclick="openLinkedInModal('Advanced React Architecture')">
+    <i class="fab fa-linkedin"></i> Post
+</button>
+</td>
+</tr>
+<tr>
+<td class="fw-bold">Cyber Security Essentials</td>
+<td>Certi-Pro</td>
+<td><span class="badge bg-success">Verified</span></td>
+<td><code>0x9A22…B330</code></td>
+<td>
+<button class="btn btn-sm btn-light" onclick="previewCert('Cyber Security')">View</button>
+<button class="btn btn-sm btn-light" onclick="verifyChain('0x9A22…B330')">Verify</button>
+<button class="btn btn-sm btn-light" onclick="shareLink()">Share</button>
+<!-- CHANGED TO TRIGGER MODAL -->
+<button class="btn btn-sm btn-light text-primary" onclick="openLinkedInModal('Cyber Security Essentials')">
+    <i class="fab fa-linkedin"></i> Post
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- ================= SKILLS ================= -->
+<div id="skills" class="tab-content">
+<div class="content-card">
+<h5 class="fw-bold mb-4">Skill Proficiency</h5>
+
+<div class="mb-3">
+<div class="d-flex justify-content-between">
+<small class="fw-bold">Python</small><small>85%</small>
+</div>
+<div class="progress"><div class="progress-bar bg-primary" style="width:85%"></div></div>
+</div>
+
+<div class="mb-3">
+<div class="d-flex justify-content-between">
+<small class="fw-bold">Blockchain Security</small><small>95%</small>
+</div>
+<div class="progress"><div class="progress-bar bg-primary" style="width:95%"></div></div>
+</div>
+
+<div class="mb-3">
+<div class="d-flex justify-content-between">
+<small class="fw-bold">Cloud Computing</small><small>40%</small>
+</div>
+<div class="progress"><div class="progress-bar bg-primary" style="width:40%"></div></div>
+</div>
+
+<a href="test.html" class="btn btn-outline-primary w-100 mt-3">Take Skill Assessment</a>
+</div>
+</div>
+
+<!-- ================= SECURITY ================= -->
+<div id="security" class="tab-content">
+<div class="content-card">
+<h5 class="fw-bold mb-3">Immutable Blockchain Logs</h5>
+<div style="background:#172B4D;color:#00FF41;padding:15px;font-family:monospace;border-radius:8px">
+&gt; Session Active (Chrome – Windows)<br>
+&gt; Wallet Linked: 0x22…11<br>
+&gt; Certificate Hash Verified<br>
+&gt; Ledger Status: SECURE
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ================= MODALS ================= -->
+
+<!-- LINKEDIN POST MODAL (NEW) -->
+<div class="modal fade" id="linkedinModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 text-center">
+            <i class="fab fa-linkedin text-primary fs-1 mb-3"></i>
+            <h5 class="fw-bold">Post to LinkedIn</h5>
+            <p>Ready to share your achievement with your professional network?</p>
+            <div class="bg-light p-3 rounded mb-3 text-start small">
+                <span class="text-muted">Draft:</span><br>
+                "I'm excited to share that I have successfully earned my <strong id="certNameInModal"></strong> certificate, verified on the blockchain via Certi-Pro!"
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-custom w-100" onclick="confirmPost()">Post Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACT INFO MODAL -->
+<div class="modal fade" id="contactModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+            <h5 class="fw-bold mb-4"><i class="fas fa-address-book text-primary me-2"></i>Contact Information</h5>
+            
+            <div class="d-flex align-items-center mb-3">
+                <div class="bg-light rounded-circle p-3 me-3 text-primary"><i class="fab fa-linkedin-in fs-5"></i></div>
+                <div><small class="text-muted d-block">LinkedIn</small><a href="https://linkedin.com/in/haya-profile" id="displayLinkedIn" target="_blank" class="text-decoration-none fw-bold">haya-profile</a></div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <div class="bg-light rounded-circle p-3 me-3 text-danger"><i class="far fa-envelope fs-5"></i></div>
+                <div><small class="text-muted d-block">Email Address</small><span class="fw-bold" id="displayEmail">haya.dev@gmail.com</span></div>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+                <div class="bg-light rounded-circle p-3 me-3 text-success"><i class="fab fa-whatsapp fs-5"></i></div>
+                <div><small class="text-muted d-block">Phone / WhatsApp</small><span class="fw-bold" id="displayPhone">+92 300 1234567</span></div>
+            </div>
+
+            <button class="btn btn-custom mt-4 w-100" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editProfileModal">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content p-4">
+<h5 class="fw-bold mb-3">Edit Profile & Contact</h5>
+
+<div class="mb-3">
+    <label class="form-label small fw-bold">Profile Picture</label>
+    <input type="file" id="inputPic" class="form-control" accept="image/*">
+</div>
+
+<div class="mb-2">
+    <label class="form-label small fw-bold">Display Name</label>
+    <input id="inputName" class="form-control" value="Haya">
+</div>
+<div class="mb-3">
+    <label class="form-label small fw-bold">Professional Bio</label>
+    <textarea id="inputBio" class="form-control">Senior Developer • Blockchain Learner</textarea>
+</div>
+
+<hr>
+<div class="mb-2">
+    <label class="form-label small fw-bold text-primary">LinkedIn </label>
+    <input id="inputLinkedIn" class="form-control" value="haya-profile">
+</div>
+<div class="mb-2">
+    <label class="form-label small fw-bold text-danger">Email Address</label>
+    <input id="inputEmail" class="form-control" value="haya.dev@gmail.com">
+</div>
+<div class="mb-3">
+    <label class="form-label small fw-bold text-success">Phone / WhatsApp</label>
+    <input id="inputPhone" class="form-control" value="+92 300 1234567">
+</div>
+
+<button class="btn btn-custom w-100" onclick="saveProfile()">Save All Changes</button>
+</div>
+</div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content p-4">
+<h5 class="fw-bold mb-3" id="certTitle"></h5>
+<img src="certificate.jpg" class="img-fluid rounded mb-3">
+<button class="btn btn-custom w-100" onclick="downloadSingle()">Download PDF</button>
+</div>
+</div>
+</div>
+
+<!-- Verify Modal -->
+<div class="modal fade" id="verifyModal">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content p-4 text-center">
+<i class="fas fa-check-circle text-success fs-1 mb-2"></i>
+<h5 class="fw-bold">Verification Successful</h5>
+<p id="txDisplay"></p>
+<button class="btn btn-custom mt-2" data-bs-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function showTab(id,btn){
+document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+btn.classList.add('active');
+}
+function previewCert(name){
+document.getElementById('certTitle').innerText=name;
+new bootstrap.Modal(previewModal).show();
+}
+function verifyChain(tx){
+document.getElementById('txDisplay').innerText=tx;
+new bootstrap.Modal(verifyModal).show();
+}
+function filterCerts(v){
+v=v.toLowerCase();
+document.querySelectorAll('#certTable tr').forEach(r=>{
+r.style.display=r.innerText.toLowerCase().includes(v)?'':'none';
+});
+}
+function shareLink(){
+navigator.clipboard.writeText("https://certipro.com/verify/USER2024");
+alert("Public link copied!");
+}
+
+// LINKEDIN POPUP FUNCTIONS
+let currentCertToPost = "";
+function openLinkedInModal(certName){
+    currentCertToPost = certName;
+    document.getElementById('certNameInModal').innerText = certName;
+    new bootstrap.Modal(document.getElementById('linkedinModal')).show();
+}
+
+
+
+function downloadSingle(){alert("PDF Generated")}
+function downloadAll(){alert("ZIP Download Started")}
+
+// SAVE PROFILE & CONTACT INFO
+function saveProfile(){
+    const name = document.getElementById('inputName').value;
+    const bio = document.getElementById('inputBio').value;
+    document.getElementById('displayName').innerHTML = name + ' <i class="fas fa-check-circle text-primary fs-5"></i>';
+    document.getElementById('displayBio').innerText = bio;
+
+    const linkedin = document.getElementById('inputLinkedIn').value;
+    const email = document.getElementById('inputEmail').value;
+    const phone = document.getElementById('inputPhone').value;
+
+    document.getElementById('displayLinkedIn').innerText = linkedin;
+    document.getElementById('displayLinkedIn').href = "https://linkedin.com/in/" + linkedin;
+    document.getElementById('displayEmail').innerText = email;
+    document.getElementById('displayPhone').innerText = phone;
+
+    const picInput = document.getElementById('inputPic');
+    if (picInput.files && picInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profileAvatar').src = e.target.result;
+        }
+        reader.readAsDataURL(picInput.files[0]);
+    }
+
+    bootstrap.Modal.getInstance(document.getElementById('editProfileModal')).hide();
+    alert("Profile and Contact Information updated!");
+}
+</script>
+
+<script>
+const bellBtn = document.getElementById('bellBtn');
+const notificationBox = document.getElementById('notificationBox');
+bellBtn.addEventListener('click', () => {
+    notificationBox.style.display = notificationBox.style.display === 'none' ? 'block' : 'none';
+});
+document.addEventListener('click', (e) => {
+    if (!bellBtn.contains(e.target) && !notificationBox.contains(e.target)) {
+        notificationBox.style.display = 'none';
+    }
+});
+
+const profileBtn = document.getElementById('profileBtn');
+const profileMenu = document.getElementById('profileMenu');
+profileBtn.addEventListener('click', () => {
+    profileMenu.style.display = profileMenu.style.display === 'none' ? 'block' : 'none';
+});
+document.getElementById('logoutBtn').addEventListener('click', () => {
+    alert('Logged out successfully (demo)');
+    window.location.href = "login.html";
+});
+document.addEventListener('click', (e) => {
+    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+        profileMenu.style.display = 'none';
+    }
+});
+</script>
+
+</body>
+</html>

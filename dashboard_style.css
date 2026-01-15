@@ -1,0 +1,109 @@
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Roboto', sans-serif; }
+body { background-color:#F6F7F8; font-size:16px; }
+
+/* Navbar */
+/* Overriding Bootstrap's bg-white just for the navbar */
+.navbar.bg-white {
+    background-color: #F6F7F8 !important;
+}
+.navbar-brand { font-weight:700; color:#4A90E2 !important; display:flex; align-items:center; gap:8px; }
+.navbar-brand i { color:#4A90E2; }
+.navbar-nav .nav-link { font-size:15px; color:#4A4A4A; margin-left:15px; transition:0.3s; }
+.navbar-nav .nav-link.active { color:#333; font-weight:600; }
+
+/* Buttons */
+.btn-primary { background-color:#4A90E2; border-color:#4A90E2; font-weight:600; }
+.btn-primary:hover { background-color:#3B78C5; border-color:#3B78C5; }
+.btn-outline-primary { border-color:#007BFF; color:#007BFF; }
+.btn-outline-primary:hover { background-color:#007BFF; color:#fff; }
+.btn-outline-secondary { color:#6c757d; border-color:#6c757d; }
+.btn-outline-secondary:hover { background-color:#6c757d; color:#fff; }
+
+/* Cards */
+.card { border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05);background-color: #fff; border: none;}
+.card h5,h4,h3 { color:#333; font-weight:600; }
+.card small { color:#888; }
+
+/* Buttons */
+.btn:focus, .btn.focus {
+    box-shadow: none !important; /* Focus hone par default outline/shadow hatayega */
+}
+
+.btn-primary { background-color:#4A90E2; border-color:#4A90E2; font-weight:600; border: none; /* Agar button ka default border hatana ho */ }
+.btn-primary:hover { background-color:#3B78C5; border-color:#3B78C5; }
+
+/* Outline buttons ka border hatana thoda ajeeb hoga, kyunki woh outline hi hote hain, 
+   lekin agar aap unka focus outline hatana chahte hain to: */
+.btn-outline-primary:focus, .btn-outline-primary.focus {
+    box-shadow: none !important;
+}
+.btn-outline-secondary:focus, .btn-outline-secondary.focus {
+    box-shadow: none !important;
+}
+
+/* Donut Charts */
+.donut { width:150px; height:150px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.donut-pass { background: conic-gradient(#5CB85C 0 70%, #E9ECEF 70% 100%); }
+.donut-fail { background: conic-gradient(#F0AD4E 0 20%, #E9ECEF 20% 100%); }
+.donut-center { width:100px; height:100px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; text-align:center; font-size:16px; box-shadow:inset 0 1px 0 rgba(0,0,0,0.02); }
+
+/* Bar Chart */
+/* --- Bar Chart --- */
+/* --- Bar Chart --- */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;       /* bars bottom se start honge */
+  justify-content: space-between;
+  height: 160px;
+  gap: 12px;
+}
+
+.bar-container {
+  flex: 1;
+  text-align: center;
+}
+
+.bar-container .bar {
+  width: 30px;                 /* fixed width */
+  height: 50%;                 /* will override inline style */
+  background-color: #4A90E2;
+  border-radius: 4px 4px 0 0;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.bar-container .bar.max-bar {
+  background-color: #007BFF !important;
+}
+
+.bar-container div:last-child {
+  margin-top: 6px;             /* space between bar and label */
+  font-size: 14px;
+}
+
+
+
+/* Recent Activity */
+.list-group-item { background:transparent; border:none; padding-left:0; padding-right:0; }
+.list-group-item i { font-size:18px; }
+
+/* Responsive */
+@media (max-width:767.98px) {
+  .donut { width:120px; height:120px; }
+  .donut-center { width:80px; height:80px; font-size:14px; }
+}
+
+/* New: Rule to explicitly show a border on cards that have the .border class */
+.card.border {
+    border: 1px solid #E0E0E0 !important; /* A light gray border */
+}
+
+/* Custom rule to ensure Certi-Pro text is black */
+.navbar-brand span {
+    color: #333333 !important; /* Ya sirf black */
+}
+/* Logo Text (Certi-Pro) aur Icon ka Size Badhana */
+.navbar-brand span,
+.navbar-brand i {
+    font-size: 26px !important; /* Example: Koi bhi custom size de sakte hain */
+}

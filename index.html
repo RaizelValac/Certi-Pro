@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certi-Pro Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="welcome-section">
+        
+            <div class="logo">
+                <i class="fas fa-cube"></i> Certi-Pro
+            </div>
+            <div class="welcome-content">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please <br> login with your personal info. <br> Or</p>
+                <a href="signup.html" class="create-account-btn">Create an account</a>
+                <div class="org-link">
+                    <a href="org_signup.html">Create an account as an organization</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="signin-section">
+            <div class="signin-content-wrapper">
+                <h2>Sign In</h2>
+                <form id="loginForm"> 
+                    <div class="input-group">
+                        <label for="username">Username or email</label>
+                        <input type="text" id="username" placeholder="Enter your username or email">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                    </div>
+                    <div class="options-row">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="forgot_pswd.html" class="forgot-password">Forgot password?</a> 
+                    </div>
+                    <button type="submit" class="login-btn">Log In</button>
+                </form>
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <button class="google-login-btn">
+                    <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google icon">
+                    Continue with Google
+                </button>
+                
+                <div class="signup-link">
+                    Don't have an account? 
+                    <a href="signup.html">Create one.</a> 
+                </div>
+            </div> </div>
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. DYNAMICALLY INJECT CSS ---
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .password-wrapper { position: relative; width: 100%; }
+            .toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; z-index: 10; }
+            .caps-warning { color: #ff9800; font-size: 12px; display: none; margin-top: 5px; align-items: center; gap: 5px; }
+            .input-error { border: 1px solid #ff4b5c !important; }
+            #custom-toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 16px; position: fixed; z-index: 1000; bottom: 30px; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.5s, bottom 0.5s; }
+            #custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+            #custom-toast.error { background-color: #ff4b5c; }
+            #custom-toast.success { background-color: #2ecc71; }
+        `;
+        document.head.appendChild(style);
+
+        // --- 2. SETUP DOM ELEMENTS ---
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const rememberCheckbox = document.getElementById('remember');
+        const loginBtn = document.querySelector('.login-btn');
+
+        const toastDiv = document.createElement('div');
+        toastDiv.id = 'custom-toast';
+        document.body.appendChild(toastDiv);
+
+        // Password Eye Icon Setup
+        const passParent = passwordInput.parentNode;
+        const passWrapper = document.createElement('div');
+        passWrapper.className = 'password-wrapper';
+        passParent.insertBefore(passWrapper, passwordInput);
+        passWrapper.appendChild(passwordInput);
+        const toggleIcon = document.createElement('i');
+        toggleIcon.className = 'fas fa-eye toggle-password';
+        passWrapper.appendChild(toggleIcon);
+
+        function showToast(message, type = 'default') {
+            toastDiv.innerText = message;
+            toastDiv.className = 'show ' + type;
+            setTimeout(() => { toastDiv.className = ''; }, 3000);
+        }
+
+        // --- 3. EVENT LISTENERS ---
+        toggleIcon.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            toggleIcon.classList.toggle('fa-eye');
+            toggleIcon.classList.toggle('fa-eye-slash');
+        });
+
+        // --- 4. LOGIN SUBMISSION (REAL API) ---
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!email || !password) {
+                showToast('Fields cannot be empty', 'error');
+                return;
+            }
+
+            const originalBtnText = loginBtn.innerText;
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, rememberMe: rememberCheckbox.checked })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    localStorage.setItem('token', result.data.token);
+                    localStorage.setItem('userRole', result.data.accountType);
+                    showToast('Login Successful!', 'success');
+                    setTimeout(() => {
+                        window.location.href = result.data.accountType === 'organization' ? 'org_dashboard.html' : 'dashboard.html';
+                    }, 1500);
+                } else {
+                    showToast(result.message || 'Login Failed', 'error');
+                }
+            } catch (error) {
+                showToast('Server connection failed!', 'error');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerText = originalBtnText;
+            }
+        });
+
+        // Google Button Interaction
+        const googleBtn = document.querySelector('.google-login-btn');
+        if(googleBtn) {
+            googleBtn.addEventListener('click', () => showToast('Google Login not ready.', 'default'));
+        }
+    }); 
+</script>
+
+
+</body>
+</html>

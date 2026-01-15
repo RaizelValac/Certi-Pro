@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certi-Pro Earned Certificates</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            background-color: #F4F5F7;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #172B4D;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #F4F5F7;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        .brand-icon {
+            color: #4C9AFF;
+            margin-right: 10px;
+        }
+        .nav-link {
+            color: #172B4D;
+            font-weight: 500;
+            margin-left: 20px;
+            
+        }
+        .nav-icons .fa-icon {
+            
+            margin-left: 25px;
+            color: #42526E;
+            cursor: pointer;
+        }
+
+        /* Header Section */
+        .back-link {
+            color: #4C9AFF;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        .page-title {
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+            font-size: 2rem;
+        }
+        .page-subtitle {
+            color: #97A0AF;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Filters Section */
+        .search-input {
+            background-color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6rem 1rem;
+            width: 100%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            max-width: 350px;
+        }
+        .filter-btn {
+            background-color: #FFFFFF;
+            border: none;
+            color: #172B4D;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            margin-left: 10px;
+        }
+        .filter-row {
+            margin-bottom: 30px;
+        }
+
+        /* Certificate Card Styling */
+        .cert-card {
+            background-color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .course-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Certificate Preview Banner */
+        .cert-banner-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .cert-preview {
+            flex-grow: 1;
+            height: 60px;
+            background-color: #ffffff;
+            border: 1px solid #dfe1e6;
+            background-image: url('https://placehold.co/800x100/white/black?text=C+E+R+T+I+F+I+C+A+T+E&font=playfair-display'); /* Simulating the certificate image */
+            background-size: cover;
+            background-position: center;
+            margin-right: 20px;
+            position: relative;
+            overflow: hidden;
+            /* Decorative stripe to match image */
+            box-shadow: inset 0 0 0 1px #eee;
+        }
+        
+        /* Simulating the blue/gold strip on the left of the certificate image */
+        .cert-preview::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            background: linear-gradient(135deg, #344563 0%, #344563 50%, #FFAB00 50%, #FFAB00 100%);
+            opacity: 0.9;
+        }
+
+        .action-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .download-icon {
+            font-size: 1.4rem;
+            color: #172B4D;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        
+        
+        .time-ago {
+            font-size: 0.65rem;
+            color: #97A0AF;
+            white-space: nowrap;
+        }
+
+        .navbar-brand span.fs-5,
+        .navbar-brand i.fs-4 {
+        font-size: 26px !important; 
+        }
+/* Aur icon ka colour */
+        .navbar-brand i.fs-4 {
+          color: #4A90E2 !important;
+        }
+
+        .navbar-brand {
+    /* ... existing rules ... */
+    margin-left: 20px; /* Ya koi bhi value jo aapko theek lage (e.g., 15px, 25px) */
+}
+        
+.cert-banner-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+   
+ .course-title {
+    font-size: 1.35rem;   /* BIG text */
+    font-weight: 700;
+}
+   
+.action-area {
+    margin-top: -20px;   /* value adjust kar sakti ho */
+}
+
+ .template-option {
+  cursor: pointer;
+  transition: 0.3s;
+  border: 2px solid transparent;
+}
+
+.template-option:hover {
+  transform: scale(1.03);
+  border-color: #4C9AFF;
+}
+       
+
+
+
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark" href="#">
+                <i class="fas fa-cube fs-4"></i>
+                <span class="fs-5">Certi-Pro</span>
+            </a>
+            
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav mr-auto">
+                   <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="viewcert.html">View Certificates</a>
+                    </li>
+                </ul>
+                <div class="ms-3 d-flex align-items-center gap-3">
+                    <button class="btn border-0"><i class="far fa-bell fs-4"></i></button>
+                    <button class="btn border-0"><i class="far fa-user-circle fs-4"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-3">
+        
+        <div class="row">
+            <div class="col-12">
+                <a href="dashboard.html" class="back-link">
+                    <i class="fas fa-arrow-left me-2"></i>Back
+                </a>
+                <h2 class="page-title">Earned Certificates</h2>
+                <p class="page-subtitle">Here are your achievements.</p>
+            </div>
+        </div>
+
+        <div class="row filter-row align-items-center">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <input type="text" class="form-control search-input" placeholder="Search...">
+            </div>
+            
+            <div class="col-md-6 d-flex justify-content-md-end justify-content-start">
+                <button class="btn filter-btn">All</button>
+                <button class="btn filter-btn">Earliest</button>
+                <button class="btn filter-btn">Latest</button>
+            </div>
+        </div>
+
+        <div class="card cert-card">
+            <h5 class="course-title mb-0">Advanced JavaScript</h5>
+            <div class="cert-banner-container">
+    <div class="action-area ms-auto text-end">
+        <i class="fas fa-download download-icon"></i>
+        <span class="time-ago">2 days ago</span>
+    </div>
+</div>
+
+        </div>
+
+        <div class="card cert-card">
+            <h5 class="course-title mb-0">Python for Data Science</h5>
+            <div class="cert-banner-container">
+                <div class="action-area ms-auto text-end">
+                    <i class="fas fa-download download-icon"></i>
+                    <span class="time-ago">7 days ago</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card cert-card">
+            <h5 class="course-title mb-0">SQL Basics</h5>
+            <div class="cert-banner-container">
+                <div class="action-area ms-auto text-end">
+                    <i class="fas fa-download download-icon"></i>
+                    <span class="time-ago">2 weeks ago</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card cert-card">
+            <h5 class="course-title mb-0">Software Testing</h5>
+            <div class="cert-banner-container">
+                <div class="action-area ms-auto text-end">
+                    <i class="fas fa-download download-icon"></i>
+                    <span class="time-ago">6 weeks ago</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ==========================
+     1️⃣ Live Search Filter
+  ========================== */
+  const searchInput = document.querySelector('.search-input');
+  const certCards = document.querySelectorAll('.cert-card');
+
+  if (searchInput) {
+    searchInput.addEventListener('keyup', () => {
+      const value = searchInput.value.toLowerCase();
+      certCards.forEach(card => {
+        const title = card.querySelector('.course-title').innerText.toLowerCase();
+        card.style.display = title.includes(value) ? 'block' : 'none';
+      });
+    });
+  }
+
+  /* ==========================
+     2️⃣ Filter Buttons
+  ========================== */
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const container = document.querySelector('.container');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (btn.innerText === 'All') {
+        certCards.forEach(card => card.style.display = 'block');
+      }
+
+      if (btn.innerText === 'Latest') {
+        [...certCards].reverse().forEach(card => container.appendChild(card));
+      }
+
+      if (btn.innerText === 'Earliest') {
+        [...certCards].forEach(card => container.appendChild(card));
+      }
+    });
+  });
+
+  /* ==========================
+     3️⃣ Download Demo
+  ========================== */
+  document.querySelectorAll('.download-icon').forEach(icon => {
+  icon.addEventListener('click', () => {
+    const modal = new bootstrap.Modal(
+      document.getElementById('templateModal')
+    );
+    modal.show();
+  });
+});
+
+function selectTemplate(templateName) {
+  alert(templateName + ' selected (next: editor / download)');
+  const modalEl = document.getElementById('templateModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  modal.hide();
+}
+
+
+  /* ==========================
+     4️⃣ Hover Animation
+  ========================== */
+  certCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'scale(1.02)';
+      card.style.transition = '0.3s';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'scale(1)';
+    });
+  });
+
+  /* ==========================
+     5️⃣ Navbar Icons
+  ========================== */
+  const bell = document.querySelector('.fa-bell');
+  const profile = document.querySelector('.fa-user-circle');
+
+  if (bell) bell.addEventListener('click', () => {
+    alert('No new notifications (demo)');
+  });
+
+  if (profile) profile.addEventListener('click', () => {
+    alert('Profile & logout coming soon');
+  });
+
+});
+</script>
+<!-- TEMPLATE SELECT MODAL -->
+<div class="modal fade" id="templateModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">Choose Certificate Template</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-3">
+
+          <!-- Template 1 -->
+          <div class="col-md-4">
+            <div class="card template-option" onclick="selectTemplate('Template 1')">
+              <img src="https://placehold.co/300x180?text=Template+1" class="img-fluid rounded">
+              <div class="text-center py-2 fw-semibold">Template 1</div>
+            </div>
+          </div>
+
+          <!-- Template 2 -->
+          <div class="col-md-4">
+            <div class="card template-option" onclick="selectTemplate('Template 2')">
+              <img src="https://placehold.co/300x180?text=Template+2" class="img-fluid rounded">
+              <div class="text-center py-2 fw-semibold">Template 2</div>
+            </div>
+          </div>
+
+          <!-- Template 3 -->
+          <div class="col-md-4">
+            <div class="card template-option" onclick="selectTemplate('Template 3')">
+              <img src="https://placehold.co/300x180?text=Template+3" class="img-fluid rounded">
+              <div class="text-center py-2 fw-semibold">Template 3</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certi-Pro | Org Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="org_dashboard_style.css">
+</head>
+<body>
+
+<div class="container-fluid mt-0 mb-0">
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 py-3">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary" href="#">
+          <i class="fas fa-cube fs-4"></i>
+          <span class="fs-5">Certi-Pro</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="topNav">
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link active" href="org_dashboard.html">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link active" href="mng_cert_dashboard.html">Manage Certificates</a></li>
+            <li class="nav-item"><a class="nav-link active" href="mng_prgrm_dashboard.html">Manage Programs</a></li>
+               </ul>
+
+          <div class="ms-3 d-flex align-items-center gap-3">
+            <button class="btn border-0"><i class="far fa-bell fs-4"></i></button>
+       
+            <a href="organization_profile.html" class="btn border-0">
+    <i class="far fa-user-circle fs-4"></i>
+</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Content -->
+      <div class="px-5 py-2 main-content-bg">
+        <!-- Welcome + Stats -->
+        <div class="row align-items-center mb-4">
+          <div class="col-md-8">
+            <h2 class="mb-1 fw-bold">Welcome Back, Organization!</h2>
+            <p class="text-muted mb-0">Here's a summary of your organization's performance.</p>
+          </div>
+          <div class="col-md-4 text-md-end mt-3 mt-md-0">
+  <a href="newcert_dashboard.html" class="btn btn-primary btn-lg">
+    Issue New Certificates
+  </a>
+</div>
+        </div>
+
+
+        
+
+        <!-- Top Stats Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm text-center p-3">
+              <small class="text-muted">Total Learners</small>
+              <h3 class="mt-2 mb-0">2450</h3>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm text-center p-3">
+              <small class="text-muted">Certificates Issued</small>
+              <h3 class="mt-2 mb-0">2380</h3>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm text-center p-3">
+              <small class="text-muted">Active Programs</small>
+              <h3 class="mt-2 mb-0">80</h3>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm text-center p-3">
+              <small class="text-muted">Success Rate</small>
+              <h3 class="mt-2 mb-0">86%</h3>
+            </div>
+          </div>
+        </div>
+
+         <!-- Employee statistics -->
+        <div class="card shadow-sm p-3 mb-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        
+        <h5 class="fw-bold m-0">Certificate Statistics</h5>
+        
+        <a href="cert_stat_dashboard.html" class="text-decoration-none fw-semibold">
+            View All →
+        </a>
+    </div>
+
+    <p class="text-muted mb-3">Certification Statistics of this month</p>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-3 border">
+                <small class="text-muted">Certificates Issued</small>
+                <h3 class="mt-2 mb-0">350</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-3 border">
+                <small class="text-muted">Remaining Certificates</small>
+                <h3 class="mt-2 mb-0">20</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center p-3 border">
+                <small class="text-muted">Active Rate</small>
+                <h3 class="mt-2 mb-0">60%</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Analytics Row -->
+        <div class="row mb-4">
+          <div class="col-lg-8">
+            <!-- Pie Charts -->
+            <div class="card shadow-sm px-3 py-5 mb-1">
+              <h5 class="fw-bold mb-3">Organization Analytics</h5>
+              <h6 class="fw-bold mb-3">Success Rate Distribution</h6>
+              <div class="d-flex justify-content-center">
+  <div class="donut donut-pass">
+    <div class="donut-center text-center">
+      <strong style="font-size:16px;">60%</strong>
+      <small style="font-size:12px; display:block;">Completion</small>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center gap-4 mt-3">
+  <span><i class="fas fa-circle text-success"></i> Completion (60%)</span>
+  <span><i class="fas fa-circle text-warning"></i> Incomplete (40%)</span>
+</div>
+
+
+
+            </div>
+
+            <!-- Bar Chart -->
+             <div class="card shadow-sm px-3 py-5">
+  <h5 class="fw-bold mb-3">Certificates Issued</h5>
+  <canvas id="certificatesChart" height="160"></canvas>
+</div>
+
+
+
+
+
+          </div>
+
+          <!-- Right Column -->
+          <div class="col-lg-4 d-flex">
+            <!-- Recent Activity -->
+            <div class="card shadow-sm mb-3 px-3 py-3 h-100 w-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0 fw-bold">Recent Activity</h5>
+                <a href="recent_dashboard.html" class="text-decoration-none fw-semibold ms-3">
+        View All →
+      </a>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <div>
+                    <div class="fw-semibold">Ayesha completed Python Program</div>
+                    <small class="text-muted">1 hour ago</small>
+                  </div>
+                </li>
+                <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <div>
+                    <div class="fw-semibold">Zain completed Data Science Program</div>
+                    <small class="text-muted">5 days ago</small>
+                  </div>
+                </li>
+                <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <div>
+                    <div class="fw-semibold">Assessment 'Python Basics' updated by Trainer Ahmed</div>
+                    <small class="text-muted">1 week ago</small>
+                  </div>
+                </li>
+                <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                  <i class="fas fa-check-circle text-success me-2"></i>
+                  <div>
+                    <div class="fw-semibold">5 certificates approved today</div>
+                    <small class="text-muted">1 hour ago</small>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+           
+          </div>
+        </div>
+
+        
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- 1️⃣ Toast Notification Setup ---
+    const toastDiv = document.createElement('div');
+    toastDiv.id = 'custom-toast';
+    toastDiv.style.cssText = `
+        visibility:hidden; min-width:250px; background:#333; color:#fff;
+        text-align:center; border-radius:5px; padding:16px;
+        position:fixed; z-index:1000; bottom:30px; left:50%;
+        transform:translateX(-50%); font-size:14px; opacity:0;
+        transition: opacity 0.5s, bottom 0.5s; box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    `;
+    document.body.appendChild(toastDiv);
+
+    function showToast(message, type='default') {
+        toastDiv.innerText = message;
+        toastDiv.className = 'show ' + type;
+        toastDiv.style.background = type==='error' ? '#ff4b5c' : (type==='success' ? '#2ecc71' : '#333');
+        toastDiv.style.visibility = 'visible';
+        toastDiv.style.opacity = '1';
+        toastDiv.style.bottom = '50px';
+        setTimeout(() => {
+            toastDiv.style.opacity = '0';
+            toastDiv.style.bottom = '30px';
+            setTimeout(()=>toastDiv.style.visibility='hidden',500);
+        }, 3000);
+    }
+
+    // --- 2️⃣ Donut Charts Scroll Animation ---
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return rect.top <= (window.innerHeight || document.documentElement.clientHeight) && rect.bottom >= 0;
+    }
+
+    function animateDonut(donutElement, duration=2000){
+        if(donutElement.dataset.animated) return;
+        donutElement.dataset.animated = true;
+
+        let start = null;
+        const percent = parseInt(donutElement.querySelector('strong').innerText);
+        const remaining = 100 - percent;
+
+        function step(timestamp){
+            if(!start) start = timestamp;
+            const progress = Math.min((timestamp-start)/duration,1);
+            const deg = percent*3.6*progress;
+            if(donutElement.classList.contains('donut-pass')){
+                donutElement.style.background = `conic-gradient(#28a745 0 ${deg}deg, #ffc107 ${deg}deg 360deg)`;
+
+
+            } else if(donutElement.classList.contains('donut-fail')){
+                donutElement.style.background = `conic-gradient(#dc3545 0 ${deg}deg, #e9ecef ${deg}deg 360deg)`;
+            }
+            if(progress<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    function checkDonuts(){
+        document.querySelectorAll('.donut').forEach(d => { if(isInViewport(d)) animateDonut(d); });
+    }
+    window.addEventListener('scroll', checkDonuts);
+    window.addEventListener('load', checkDonuts);
+
+    // --- 3️⃣ Certificates Bar Chart Animation ---
+    function animateBarChart(){
+        const ctx = document.getElementById('certificatesChart');
+        if(!ctx) return;
+        if(ctx.dataset.animated) return;
+        ctx.dataset.animated = true;
+
+        const data = [40, 50, 70, 85, 100, 80, 75, 80];
+        const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'];
+        const currentData = new Array(data.length).fill(0);
+
+        const chart = new Chart(ctx.getContext('2d'), {
+            type:'bar',
+            data:{labels, datasets:[{label:'Certificates Issued', data:currentData, backgroundColor:'#007BFF', borderRadius:6, barPercentage:0.6}]},
+            options:{responsive:true, animation:{duration:0}, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{stepSize:20}}}}
+        });
+
+        let start = null, duration = 150;
+        function step(timestamp){
+            if(!start) start = timestamp;
+            const progress = Math.min((timestamp-start)/duration,1);
+            chart.data.datasets[0].data = data.map(v => v*progress);
+            chart.update('none');
+            if(progress<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    }
+
+    function checkBarChart(){
+        const chartEl = document.getElementById('certificatesChart');
+        if(chartEl && isInViewport(chartEl)) animateBarChart();
+    }
+    window.addEventListener('scroll', checkBarChart);
+    window.addEventListener('load', checkBarChart);
+
+    // --- 4️⃣ Recent Activity Hover Effect ---
+    document.querySelectorAll('.list-group-item').forEach(item=>{
+        item.addEventListener('mouseenter',()=>item.style.background='#f6f7f8');
+        item.addEventListener('mouseleave',()=>item.style.background='transparent');
+    });
+
+    // --- 5️⃣ Buttons Interactions ---
+    document.querySelectorAll('button').forEach(btn=>{
+        if(btn.innerText.includes('Issue') || btn.innerText.includes('Earn Certificate')){
+            btn.addEventListener('click',()=>showToast('Redirecting to relevant page (demo)','success'));
+        }
+    });
+
+    // --- 6️⃣ Notifications & Profile ---
+    const bell = document.querySelector('.fa-bell');
+    const profile = document.querySelector('.fa-user-circle');
+
+    if(bell) bell.addEventListener('click',()=>showToast('No new notifications (demo)','default'));
+    
+
+});
+</script>
+
+
+
+
+</body>
+</html>

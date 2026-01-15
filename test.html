@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Exam - Evaluation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        body { background: #F4F5F7; margin: 0; padding: 30px; color: #172B4D; }
+        .exam-wrapper { max-width: 850px; margin: auto; }
+
+        /* HEADER */
+        .exam-header { background: #fff; border-radius: 12px; padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,.05); margin-bottom: 25px; }
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+        .logo i { font-size: 22px; color: #4A90E2; }
+        .exam-title { font-size: 28px; font-weight: 800; }
+
+        /* CARDS */
+        .question-card { background: #fff; border-radius: 14px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,.05); margin-bottom: 22px; }
+        .question-title { font-weight: 600; margin-bottom: 15px; }
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        .option { display: flex; align-items: center; gap: 10px; font-size: .95rem; cursor: pointer; }
+
+        /* RESULT STYLING */
+        #result-page { text-align: center; padding: 40px 20px; }
+        .score-box { background: #F4F5F7; border-radius: 12px; padding: 25px; display: inline-block; min-width: 280px; margin-top: 20px; border: 1px solid #DFE1E6; }
+        .score-big { font-size: 3rem; font-weight: 800; color: #0D6EFD; margin: 10px 0; }
+        .perc-text { font-size: 1.2rem; font-weight: 700; color: #172B4D; }
+
+        /* FOOTER */
+        .exam-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 25px; }
+        .submit-btn { background: #0D6EFD; color: #fff; border: none; padding: 12px 35px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .submit-btn:hover { background: #0B5ED7; transform: translateY(-1px); }
+        .page-info { color: #6B778C; font-size: .85rem; }
+    </style>
+</head>
+<body>
+
+<div class="exam-wrapper">
+    <div class="exam-header">
+        <div class="logo">
+            <i class="fas fa-cube"></i>
+            <span>Certi-Pro</span>
+        </div>
+        <div id="main-title" class="exam-title">Python Exam</div>
+        <div></div>
+    </div>
+
+    <div id="questions-container">
+        <div class="question-card">
+            <div class="question-title">Q1: Which of the following are valid python data types?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q1" value="List"> List</label>
+                <label class="option"><input type="radio" name="q1" value="Dictionary"> Dictionary</label>
+                <label class="option"><input type="radio" name="q1" value="Array"> Array</label>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div class="question-title">Q2: What is the output of print(type(10))?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q2" value="int"> int</label>
+                <label class="option"><input type="radio" name="q2" value="<class 'int'>"> &lt;class 'int'&gt;</label>
+                <label class="option"><input type="radio" name="q2" value="number"> number</label>
+            </div>
+        </div>
+
+        <div class="exam-footer">
+            <button class="submit-btn" onclick="submitExam()">Submit Exam</button>
+            <div class="page-info">Page 1 of 1</div>
+        </div>
+    </div>
+
+    <div id="result-page" style="display: none;">
+        <div class="question-card">
+            <i class="fas fa-check-circle" style="font-size: 60px; color: #28a745;"></i>
+            <h2 style="margin-top: 15px;">Evaluation Completed</h2>
+            <p style="color: #6B778C;">Your results have been calculated based on your answers.</p>
+            
+            <div class="score-box">
+                <div style="color: #6B778C; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Final Score</div>
+                <div id="display-score" class="score-big">0 / 0</div>
+                <div id="display-percentage" class="perc-text">0%</div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <button onclick="window.location.reload()" class="submit-btn" style="background: #6B778C;">Retake Exam</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const PASS_PERCENTAGE = 70; // Passing threshold
+const RETRY_DAYS = 7;       // Days before user can retry
+
+function submitExam() {
+    const answers = {
+        q1: "List",
+        q2: "<class 'int'>"
+    };
+
+    let score = 0;
+    let total = Object.keys(answers).length;
+
+    // Check if all questions are answered
+    for (let q in answers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (!selected) {
+            alert("Please answer all questions before submitting!");
+            return;
+        }
+        if (selected.value === answers[q]) {
+            score++;
+        }
+    }
+
+    // Calculations
+    let percentage = (score / total) * 100;
+
+    // Hide Questions
+    document.getElementById('questions-container').style.display = 'none';
+    
+    // Update Header Title
+    document.getElementById('main-title').innerText = "Result";
+
+    // Update Result Text
+    document.getElementById('display-score').innerText = score + " / " + total;
+    document.getElementById('display-percentage').innerText = percentage + "%";
+
+    // Show Result Page
+    const resultPage = document.getElementById('result-page');
+    resultPage.style.display = 'block';
+
+    // Add Pass/Fail Message
+    const resultMessage = document.createElement('p');
+    resultMessage.style.marginTop = "20px";
+    resultMessage.style.fontWeight = "600";
+
+    if (percentage >= PASS_PERCENTAGE) {
+        resultMessage.style.color = "#28a745"; // green
+        resultMessage.innerHTML = "🎉 Congratulations! You passed the exam. You have been awarded the certificate.";
+
+        // Certificate Download Button
+        const certBtn = document.createElement('button');
+        certBtn.className = "submit-btn mt-3";
+        certBtn.innerText = "Download Certificate";
+        certBtn.onclick = () => {
+            alert("Certificate download (demo)"); 
+            // Add real PDF link here
+        };
+        resultPage.appendChild(certBtn);
+
+    } else {
+        resultMessage.style.color = "#dc3545"; // red
+        resultMessage.innerHTML = `⚠️ Your skill needs improvement. You cannot receive the certificate yet. Please redo the test after ${RETRY_DAYS} days.`;
+    }
+
+    resultPage.appendChild(resultMessage);
+}
+</script>
+
+
+</body>
+</html>

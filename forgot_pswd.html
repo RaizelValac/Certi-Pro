@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certi-Pro | Verification Code</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: #F4F5F7;
+  margin: 0;
+}
+
+/* Header */
+.header {
+  padding: 20px 40px;
+  background-color: #F4F5F7;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo i {
+  color: #4A90E2;
+}
+
+/* Center Container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+}
+
+/* Card */
+.form-card {
+  background-color: #fff;
+  padding: 70px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.form-card h2 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.form-card p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* OTP */
+.otp-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.otp-input {
+  width: 44px;
+  height: 44px;
+  text-align: center;
+  font-size: 1.2rem;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background-color: #f3f4f6;
+}
+
+.otp-dash {
+  font-size: 1.5rem;
+  color: #9ca3af;
+}
+
+/* Button */
+.btn-submit {
+  width: 100%;
+  background-color: #4A90E2;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.btn-submit:hover {
+  background-color: #1D4ED8;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <i class="fas fa-cube"></i> Certi-Pro
+  </div>
+</div>
+
+<!-- Content -->
+<div class="container">
+  <div class="form-card">
+
+    <h2>Verification Code</h2>
+
+    <p>
+      We've sent a verification code to<br>
+      your registered email address.<br>
+      Enter it below to reset your password.
+    </p>
+
+    <div class="otp-wrapper">
+      <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+      <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+      <span class="otp-dash">–</span>
+      <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+      <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+    </div>
+
+    <button class="btn-submit">Resend Code</button>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const inputs = document.querySelectorAll('.otp-input');
+
+  inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      if (input.value && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    });
+  });
+
+  document.querySelector('.btn-submit').addEventListener('click', () => {
+    alert('Verification code resent (Demo)');
+  });
+  document.querySelector('.btn-submit').addEventListener('click', () => {
+  window.location.href = "set_pswd.html";
+});
+
+
+});
+</script>
+
+</body>
+</html>

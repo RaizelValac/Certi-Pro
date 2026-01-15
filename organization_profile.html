@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certi-Pro | Org Profile</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <style>
+    body { font-family: 'Roboto', sans-serif; background-color: #f0f4f8; }
+    .main-content-bg { background-color: #f0f4f8; min-height: 100vh; }
+
+    /* Navbar */
+    .navbar { border-bottom: 1px solid #eee; }
+    .nav-link { color: #555 !important; font-weight: 500; }
+    .nav-link.active { color: #0c0c0c !important; }
+
+    /* Stats Cards from Reference */
+    .stat-card { background: #fff; border-radius: 12px; padding: 20px; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04); height: 100%; }
+    .stat-val { font-size: 1.8rem; font-weight: 700; color: #333; }
+    .stat-label { font-size: 0.75rem; color: #6c757d; text-transform: uppercase; font-weight: 600; }
+    .stat-trend { font-size: 0.8rem; color: #28a745; font-weight: 600; }
+
+    /* Sidebar & Shortcut Cards */
+    .sidebar-card { background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    .nav-btn {
+      display: flex; align-items: center; width: 100%;
+      padding: 12px 15px; margin-bottom: 6px;
+      border: none; background: none;
+      font-weight: 600; border-radius: 8px;
+      color: #42526E; text-align: left; transition: 0.3s; font-size: 0.9rem;
+    }
+    .nav-btn i { width: 25px; color: #0d6efd; }
+    .nav-btn:hover { background: #f0f2f5; }
+    .nav-btn.active { background: #e7f1ff; color: #0d6efd; }
+
+    /* Certificate Grid Cards */
+    .cert-grid-card { border: none; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: 0.3s; height: 100%; }
+    .cert-grid-card:hover { transform: translateY(-5px); }
+    .cert-img { height: 140px; background: #e9ecef; object-fit: cover; width: 100%; }
+
+    .profile-header-card {
+        background: #fff; border-radius: 12px; padding: 30px;
+        margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .org-logo-lg { width: 80px; height: 80px; border-radius: 12px; background: #0d6efd; padding: 15px; }
+    
+    .badge-verified { background: #e8f5e9; color: #2d50b0; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+   
+    .tab-content { display: none; }
+.tab-content.active { display: block; }
+
+  </style>
+</head>
+<body>
+
+<div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 py-3">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary" href="#">
+          <i class="fas fa-cube fs-4"></i>
+          <span class="fs-5">Certi-Pro</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="topNav">
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link active" href="org_dashboard.html">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link active" href="mng_cert_dashboard.html">Manage Certificates</a></li>
+            <li class="nav-item"><a class="nav-link active" href="mng_prgrm_dashboard.html">Manage Programs</a></li>
+               </ul>
+
+         <div class="ms-3 d-flex align-items-center gap-3">
+                <div class="position-relative">
+    <button class="btn border-0" id="bellBtn">
+        <i class="far fa-bell fs-4"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            2
+        </span>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="notificationBox" class="card p-3 shadow"
+         style="display:none; position:absolute; right:0; top:45px; width:260px; z-index:1000;">
+        <h6 class="fw-bold mb-2">Notifications</h6>
+        <div class="small text-muted mb-2">✔ Certificate Verified</div>
+        <div class="small text-muted mb-2">🎉 New Certificate Issued</div>
+        <hr>
+        
+    </div>
+</div>
+
+                <div class="position-relative">
+    <button class="btn border-0" id="profileBtn">
+        <i class="far fa-user-circle fs-4"></i>
+    </button>
+
+    <!-- Dropdown -->
+    <div id="profileMenu" class="card p-2 shadow"
+         style="display:none; position:absolute; right:0; top:45px; width:180px; z-index:1000;">
+        <a href="organization_profile.html" class="dropdown-item">My Profile</a>
+        <a href="index.html" id="logoutBtn" class="dropdown-item text-danger">Logout</a>
+    </div>
+</div>
+   </div>
+        </div>
+    </div>
+</nav>
+
+  <div class="px-5 py-4 main-content-bg">
+    
+    <div class="profile-header-card d-flex align-items-center gap-4">
+      <div class="org-logo-lg d-flex align-items-center justify-content-center">
+        <i class="fas fa-university text-white fs-2"></i>
+      </div>
+      <div>
+        <div class="d-flex align-items-center gap-2">
+            <h2 class="fw-bold mb-0" id="displayOrgName">Organization</h2>
+            <span class="badge-verified">Verified Provider</span>
+            <small class="text-muted">Pakistan</small>
+        </div>
+        <p class="text-muted mb-0">Accredited institute providing professional certifications</p>
+      </div>
+      <div class="ms-auto">
+        <button class="btn btn-primary px-4 py-2 fw-bold" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="fas fa-pen me-2"></i> Edit Profile
+        </button>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Certificates Issued</div>
+                        <div class="stat-val">12,450</div>
+                        <div class="stat-trend"><i class="fas fa-chart-line"></i> +12% this month</div>
+                    </div>
+                    <i class="fas fa-certificate text-primary opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Learners Certified</div>
+                        <div class="stat-val">8,920</div>
+                        <div class="text-muted small">Across 14 countries</div>
+                    </div>
+                    <i class="fas fa-users text-primary opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Active Since</div>
+                        <div class="stat-val">2025</div>
+                        <div class="text-muted small">6 years of excellence</div>
+                    </div>
+                    <i class="far fa-calendar-alt text-primary opacity-50"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Average Rating</div>
+                        <div class="stat-val">4.9/5</div>
+                        <div class="text-muted small">Based on 2.4k reviews</div>
+                    </div>
+                    <i class="fas fa-star text-warning opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="sidebar-card mb-4 h-50">
+            <h6 class="fw-bold mb-3">Contact & Links</h6>
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="bg-light p-2 rounded"><i class="fas fa-envelope text-primary"></i></div>
+                <div><small class="text-muted d-block">OFFICIAL EMAIL</small><strong>contact@certipro.org</strong></div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="bg-light p-2 rounded"><i class="fas fa-globe text-primary"></i></div>
+                <div><small class="text-muted d-block">WEBSITE</small><strong>www.certipro.org</strong></div>
+            </div>
+            <div class="mt-3 pt-3 border-top">
+                <small class="text-muted d-block mb-2">SOCIAL MEDIA</small>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-light btn-sm"><i class="fas fa-share-alt"></i></button>
+                    <button class="btn btn-light btn-sm"><i class="fab fa-at"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-card h-50">
+          <h6 class="fw-bold mb-3">Admin Shortcuts</h6>
+          <button class="nav-btn active" onclick="showTab('overview', this)">
+  <i class="fas fa-cog"></i> Organization Settings
+</button>
+<button class="nav-btn" onclick="showTab('team', this)">
+  <i class="fas fa-user-shield"></i> Team Permissions
+</button>
+<button class="nav-btn" onclick="showTab('audit', this)">
+  <i class="fas fa-history"></i> Audit Log
+</button>
+
+          <hr>
+          
+        </div>
+      </div>
+
+     <div class="col-lg-9">
+
+<!-- OVERVIEW -->
+<div id="overview" class="tab-content active">
+
+  <div class="d-flex justify-content-between mb-3">
+    <h5 class="fw-bold">Issued Certificates</h5>
+    <a href="#" class="fw-bold text-primary text-decoration-none">View All</a>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card cert-grid-card certificate-card"
+     data-title="Project Management Professional"
+     style="cursor:pointer;">
+
+        <img src="certificate.jpg" class="img-fluid">
+        <div class="card-body">
+          <h6 class="fw-bold">Project Management Professional</h6>
+          <small class="text-muted"><i class="fas fa-users"></i> 3,420 Certified</small>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <div class="col-md-4">
+      <div class="card cert-grid-card certificate-card"
+     data-title="Project Management Professional"
+     style="cursor:pointer;">
+
+        <img src="certificate.jpg" class="img-fluid">
+        <div class="card-body">
+          <h6 class="fw-bold">Cloud Security Expert</h6>
+          <small class="text-muted"><i class="fas fa-users"></i> 1,150 Certified</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card cert-grid-card certificate-card"
+     data-title="Project Management Professional"
+     style="cursor:pointer;">
+
+        <img src="certificate.jpg" class="img-fluid">
+        <div class="card-body">
+          <h6 class="fw-bold">Python</h6>
+          <small class="text-muted"><i class="fas fa-users"></i> 1,150 Certified</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+     <div class="card cert-grid-card certificate-card"
+     data-title="Project Management Professional"
+     style="cursor:pointer;">
+
+        <img src="certificate.jpg" class="img-fluid">
+        <div class="card-body">
+          <h6 class="fw-bold">Cloud Computing</h6>
+          <small class="text-muted"><i class="fas fa-users"></i> 1,150 Certified</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card cert-grid-card border-dashed d-flex justify-content-center align-items-center"
+     style="border:2px dashed #dee2e6; height:100%; cursor:pointer;"
+     id="createCertBtn">
+
+        <div class="text-center">
+          <i class="fas fa-plus text-primary fs-3"></i>
+          <p class="fw-bold text-primary mt-2">Create New Certification</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div id="team" class="tab-content">
+  <h5 class="fw-bold mb-3">Team Permissions</h5>
+  <table class="table table-striped">
+    <thead>
+      <tr><th>Name</th><th>Email</th><th>Role</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Alice Johnson</td><td>alice@certipro.org</td><td>Admin</td></tr>
+      <tr><td>Bob Khan</td><td>bob@certipro.org</td><td>Manager</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- AUDIT -->
+<div id="audit" class="tab-content">
+  <h5 class="fw-bold mb-3">Audit Log</h5>
+  <ul class="list-group">
+    <li class="list-group-item">Certificate created – 12 Jan 2026</li>
+    <li class="list-group-item">Role updated – 10 Jan 2026</li>
+    <li class="list-group-item">Program deleted – 08 Jan 2026</li>
+  </ul>
+</div>
+
+<!-- CERTIFICATE DETAIL -->
+<div id="certificateDetail" class="tab-content">
+  <button class="btn btn-sm btn-light mb-3" onclick="goBack()">← Back</button>
+
+  <div class="card p-4">
+    <h4 id="certTitle" class="fw-bold"></h4>
+    <p class="text-muted">Certificate Description / Details</p>
+
+    <img src="certificate.jpg" class="img-fluid rounded mt-3">
+  </div>
+</div>
+
+<!-- NEW CERTIFICATE TEMPLATES -->
+<div id="newCertTemplates" class="tab-content">
+
+  <button class="btn btn-sm btn-light mb-3" onclick="goBack()">← Back</button>
+
+  <h5 class="fw-bold mb-3">Choose Certificate Template</h5>
+
+  <div class="row g-4">
+
+    <div class="col-md-4">
+      <div class="card cert-grid-card template-card" style="cursor:pointer;">
+        <img src="certificate.jpg" class="img-fluid">
+        <div class="card-body text-center fw-bold">Template 1</div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card cert-grid-card template-card" style="cursor:pointer;">
+        <img src="certificate.jpg" class="img-fluid">
+        <div class="card-body text-center fw-bold">Template 2</div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card cert-grid-card template-card" style="cursor:pointer;">
+        <img src="certificate.jpg" class="img-fluid">
+        <div class="card-body text-center fw-bold">Template 3</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+}
+
+</script>
+<script>
+const bellBtn = document.getElementById('bellBtn');
+const notificationBox = document.getElementById('notificationBox');
+bellBtn.addEventListener('click', () => {
+    notificationBox.style.display = notificationBox.style.display === 'none' ? 'block' : 'none';
+});
+document.addEventListener('click', (e) => {
+    if (!bellBtn.contains(e.target) && !notificationBox.contains(e.target)) {
+        notificationBox.style.display = 'none';
+    }
+});
+
+const profileBtn = document.getElementById('profileBtn');
+const profileMenu = document.getElementById('profileMenu');
+profileBtn.addEventListener('click', () => {
+    profileMenu.style.display = profileMenu.style.display === 'none' ? 'block' : 'none';
+});
+document.getElementById('logoutBtn').addEventListener('click', () => {
+    alert('Logged out successfully (demo)');
+    window.location.href = "login.html";
+});
+document.addEventListener('click', (e) => {
+    if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+        profileMenu.style.display = 'none';
+    }
+});
+</script>
+<script>
+const certCards = document.querySelectorAll('.certificate-card');
+const createBtn = document.getElementById('createCertBtn');
+
+function hideAllTabs() {
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+}
+
+// Certificate click → Detail
+certCards.forEach(card => {
+  card.addEventListener('click', () => {
+    hideAllTabs();
+    document.getElementById('certificateDetail').classList.add('active');
+    document.getElementById('certTitle').innerText = card.dataset.title;
+  });
+});
+
+// Create new → Templates
+createBtn.addEventListener('click', () => {
+  hideAllTabs();
+  document.getElementById('newCertTemplates').classList.add('active');
+});
+
+// Back button
+function goBack() {
+  hideAllTabs();
+  document.getElementById('overview').classList.add('active');
+}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+/* Global Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* HTML aur Body ko full height dein */
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #f0f2f5; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Poori screen height */
+}
+
+/* Red Box Area: Login Container ko poori screen fit karein */
+.login-container {
+    display: flex;
+    width: 100vw; /* Poori Screen Width */
+    min-height: 100vh; /* Poori Screen Height */
+    box-shadow: none; /* Shadow Hata dein */
+    border-radius: 0; /* Corner Golai Hata dein */
+    overflow: hidden; 
+}
+
+/* --- Left Section (Welcome Back) --- */
+.welcome-section {
+    position: relative;
+    flex: 1; 
+    color: white;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    /* Background Image: Apne image ka URL yahan lagayen */
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('mon.jpg') no-repeat center center/cover; 
+}
+
+.welcome-section .header {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.welcome-section .logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.welcome-section .logo .fas {
+    color: #a0c3ff; 
+}
+
+.welcome-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+.welcome-content h1 {
+    font-size: 55px;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.welcome-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 7px;
+}
+
+.create-account-btn {
+    width: 350px; 
+    padding: 10px 50px; 
+    border-radius: 30px; 
+    font-size: 25px; 
+    font-weight: bold;
+    text-decoration: none; 
+    display: inline-block;
+    cursor: pointer;
+    
+    /* GLASSMORHISM PROPERTIES */
+    background-color: rgba(255, 255, 255, 0.2); 
+    
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); 
+    
+    color: white; /* <--- YAHAN EXTRA CHARACTER HATA DIYA HAI */
+    
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* 'inset' typo theek kiya */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                0 1px 0 rgba(255, 255, 255, 0.5) inset; 
+    
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+
+    transition: background-color 0.3s;
+}
+.org-link {
+    font-size: 12px;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+.org-link a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+
+/* --- Right Section (Sign In) --- */
+/* Right section ko poori height do aur content ko center karo */
+.signin-section {
+    flex: 1;
+    background-color: #f0f2f5; /* Background color jaisa picture mein hai */
+    padding: 20px; /* Thoda padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertical Center */
+    align-items: center; /* Horizontal Center */
+    min-height: 100vh; /* Poori height zaruri hai */
+}
+
+/* Purple Box Area: Centered Sign In Form Box */
+.signin-content-wrapper {
+    width: 100%;
+    max-width: 420px; /* Box ki maximum width */
+    background-color: white; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    padding: 35px; /* Content ke andar padding */
+}
+
+.signin-section h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+.options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 5px;
+    accent-color: #007BFF; 
+}
+
+.forgot-password {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* OR Divider */
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.divider:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #ddd;
+    z-index: 1;
+}
+
+.divider span {
+    background-color: white;
+    padding: 0 10px;
+    position: relative;
+    z-index: 5;
+    color: #888;
+    font-size: 14px;
+}
+
+/* Google Login Button */
+.google-login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: #555;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.signup-link {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-top: 20px; /* Thoda space de dein */
+}
+
+.signup-link a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+}

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certi-Pro | Manage Programs</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #F4F5F7;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            color: #172B4D;
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar { background-color: #F4F5F7; padding: 1rem 0; }
+        .navbar-brand { font-weight: 700; margin-left: 20px; display: flex; align-items: center; }
+        .brand-icon { color: #4A90E2 !important; font-size: 26px; margin-right: 10px; }
+        .nav-link { color: #172B4D; font-weight: 500; margin-left: 20px; }
+
+        /* ================= HEADER ================= */
+        .back-link { color: #4C9AFF; text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 1rem; }
+        .page-title { font-weight: 800; margin-bottom: .5rem; }
+        .page-subtitle { color: #6B778C; font-size: .9rem; margin-bottom: 2rem; }
+
+        /* ================= SEARCH & BUTTONS ================= */
+        .search-input { background: #fff; border: 1px solid #DFE1E6; border-radius: 8px; padding: .6rem 1rem; max-width: 300px; }
+        .btn-action { background: #fff; border: 1px solid #DFE1E6; color: #42526E; font-weight: 600; font-size: .85rem; padding: .6rem 1.5rem; border-radius: 8px; margin-left: 10px; }
+        .btn-primary-custom { background: #0052CC; color: #fff; border: none; }
+        .btn-primary-custom:hover { background: #0747A6; color: #fff; }
+
+        /* ================= ADD PROGRAM PANEL (THE RISING PAGE) ================= */
+        #addProgramPanel {
+            position: fixed;
+            top: 0; right: -100%; /* Initially hidden to the right */
+            width: 450px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: 0.4s ease;
+            z-index: 1050;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        #addProgramPanel.active { right: 0; } /* Slides in */
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(9, 30, 66, 0.54);
+            display: none;
+            z-index: 1040;
+        }
+
+        .form-label { font-weight: 600; font-size: 0.9rem; color: #42526E; }
+        .form-control, .form-select { border-radius: 8px; padding: 10px; border: 2px solid #DFE1E6; }
+        .form-control:focus { border-color: #4C9AFF; box-shadow: none; }
+
+        /* ================= GRID TABLE ================= */
+        .table-head {
+            display: grid;
+            grid-template-columns: 2.5fr 1.5fr 1fr 0.5fr;
+            background: #fff;
+            padding: 16px 25px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #6B778C;
+            margin-bottom: 14px;
+            margin-top: 30px;
+        }
+        .table-row {
+            display: grid;
+            grid-template-columns: 2.5fr 1.5fr 1fr 0.5fr;
+            align-items: center;
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .actions { display: flex; justify-content: flex-end; gap: 15px; color: #6B778C; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<div id="addProgramPanel">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold m-0">Create New Program</h4>
+        <button class="btn-close" id="closePanel"></button>
+    </div>
+    <p class="text-muted small mb-4">Fill in the details below to add a new certificate program to your organization.</p>
+    
+    <form id="newProgramForm">
+        <div class="mb-3">
+            <label class="form-label">Course Title</label>
+            <input type="text" class="form-control" id="pTitle" placeholder="e.g. Advanced Python" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Category</label>
+            <select class="form-select" id="pCat">
+                <option>IT & Software</option>
+                <option>Design</option>
+                <option>Business</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Duration</label>
+            <input type="text" class="form-control" id="pDur" placeholder="e.g. 4 Weeks">
+        </div>
+        <div class="mb-4">
+            <label class="form-label">Course Description</label>
+            <textarea class="form-control" id="pDesc" rows="5" placeholder="What will the students learn?"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary-custom w-100 py-2 fw-bold">Add Program</button>
+    </form>
+</div>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand" href="#"><i class="fas fa-cube brand-icon"></i><span class="fs-5">Certi-Pro</span></a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="org_dashboard.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="mng_cert_dashboard.html">Manage Certificates</a></li>
+                <li class="nav-item"><a class="nav-link" href="mng_prgrm_dashboard.html">Manage Programs</a></li>
+                     </ul>
+                     <div class="ms-3 d-flex align-items-center gap-3">
+        <button class="btn border-0">
+          <i class="far fa-bell fs-4"></i>
+        </button>
+        <a href="organization_profile.html" class="btn border-0">
+    <i class="far fa-user-circle fs-4"></i>
+</a>
+      </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <a href="org_dashboard.html" class="back-link"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+    <h2 class="page-title">Manage Programs</h2>
+    <p class="page-subtitle">View and organize certificates for your courses</p>
+
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+            <input class="form-control search-input" placeholder="Search...">
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <button class="btn-action btn-primary-custom" id="openPanelBtn">Add New Program</button>
+            <button class="btn-action">All</button>
+        </div>
+    </div>
+
+    <div class="manage-table" id="programTable">
+        <div class="table-head">
+            <div>Program Details</div>
+            <div>Category</div>
+            <div>Duration</div>
+            <div class="text-end">Actions</div>
+        </div>
+        <div class="table-row">
+            <div><div class="fw-bold">Python Basics</div><div class="small text-muted">Intro to programming</div></div>
+            <div><span class="badge bg-light text-dark border">IT & Software</span></div>
+            <div>4 Weeks</div>
+            <div class="actions"><i class="fa-regular fa-pen-to-square"></i><i class="fa-regular fa-trash-can"></i></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const panel = document.getElementById('addProgramPanel');
+    const overlay = document.getElementById('overlay');
+    const openBtn = document.getElementById('openPanelBtn');
+    const closeBtn = document.getElementById('closePanel');
+    const programForm = document.getElementById('newProgramForm');
+    
+    let editingRow = null; // Track karne ke liye ke edit ho raha hai ya naya add
+
+    // --- PANEL CONTROL ---
+    const showPanel = () => {
+        panel.classList.add('active');
+        overlay.style.display = 'block';
+    };
+
+    const hidePanel = () => {
+        panel.classList.remove('active');
+        overlay.style.display = 'none';
+        programForm.reset();
+        editingRow = null; // Reset editing state
+        document.querySelector('#addProgramPanel h4').innerText = "Create New Program";
+    };
+
+    openBtn.addEventListener('click', showPanel);
+    closeBtn.addEventListener('click', hidePanel);
+    overlay.addEventListener('click', hidePanel);
+
+    // --- FORM SUBMIT (ADD & EDIT) ---
+    programForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const title = document.getElementById('pTitle').value;
+        const cat = document.getElementById('pCat').value;
+        const dur = document.getElementById('pDur').value;
+        const desc = document.getElementById('pDesc').value;
+
+        if (editingRow) {
+            // Edit Existing Row
+            editingRow.querySelector('.fw-bold').innerText = title;
+            editingRow.querySelector('.small.text-muted').innerText = desc;
+            editingRow.querySelector('.badge').innerText = cat;
+            editingRow.querySelector('.duration-text').innerHTML = dur;
+        } else {
+            // Add New Row
+            const newRow = document.createElement('div');
+            newRow.className = 'table-row';
+            newRow.innerHTML = `
+                <div>
+                    <div class="fw-bold">${title}</div>
+                    <div class="small text-muted">${desc}</div>
+                </div>
+                <div><span class="badge bg-light text-dark border">${cat}</span></div>
+                <div class="duration-text">${dur}</div>
+                <div class="actions">
+                    <i class="fa-regular fa-pen-to-square edit-btn"></i>
+                    <i class="fa-regular fa-trash-can delete-btn"></i>
+                </div>
+            `;
+            document.getElementById('programTable').appendChild(newRow);
+            attachRowEvents(newRow);
+        }
+
+        hidePanel();
+    });
+
+    // --- ATTACH EVENTS TO ROWS ---
+    function attachRowEvents(row) {
+        // DELETE FUNCTION
+        row.querySelector('.delete-btn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete this program?')) {
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(20px)';
+                setTimeout(() => row.remove(), 300);
+            }
+        });
+
+        // EDIT FUNCTION
+        row.querySelector('.edit-btn').addEventListener('click', () => {
+            editingRow = row; // Store current row
+            
+            // Load data into form
+            document.getElementById('pTitle').value = row.querySelector('.fw-bold').innerText;
+            document.getElementById('pDesc').value = row.querySelector('.small.text-muted').innerText;
+            document.getElementById('pCat').value = row.querySelector('.badge').innerText;
+            document.getElementById('pDur').value = row.querySelector('.duration-text').innerText;
+
+            document.querySelector('#addProgramPanel h4').innerText = "Edit Program";
+            showPanel();
+        });
+    }
+
+    // Initialize existing rows
+    document.querySelectorAll('.table-row').forEach(row => {
+        // Pehle se maujood rows mein duration-text class add karna zaroori hai
+        const durDiv = row.children[2];
+        durDiv.classList.add('duration-text');
+        
+        // Buttons ko classes dena
+        const editIcon = row.querySelector('.fa-pen-to-square');
+        const delIcon = row.querySelector('.fa-trash-can');
+        if(editIcon) editIcon.classList.add('edit-btn');
+        if(delIcon) delIcon.classList.add('delete-btn');
+        
+        attachRowEvents(row);
+    });
+    /* =========================
+   SEARCH FUNCTIONALITY
+========================= */
+const searchInput = document.querySelector('.search-input');
+
+if (searchInput) {
+    searchInput.addEventListener('keyup', () => {
+        const value = searchInput.value.toLowerCase(); // Jo user ne type kiya
+        const allRows = document.querySelectorAll('.table-row'); // Saari rows pakro
+
+        allRows.forEach(row => {
+            // Row ke andar ka saara text uthao
+            const rowText = row.innerText.toLowerCase();
+            
+            // Agar match mile toh dikhao (grid), warna chhupa do (none)
+            if (rowText.includes(value)) {
+                row.style.display = 'grid';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+       const bell = document.querySelector('.fa-bell');
+  const user = document.querySelector('.fa-user-circle');
+
+  if (bell) {
+    bell.addEventListener('click', () => {
+      alert('No new notifications (demo)');
+    });
+  } 
+    });
+}
+</script>
+
+</body>
+</html>

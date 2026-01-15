@@ -1,0 +1,245 @@
+/* Global Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #f0f2f5; 
+    display: flex;
+    justify-content: center;
+    min-height: 100vh; /* Removed align-items to fix zoom cut */
+}
+
+/* Container */
+.signup-container {
+    display: flex;
+    width: 100vw; 
+    height: 100vh; 
+    overflow: hidden;
+
+}
+
+/* Left Welcome Section */
+.welcome-section {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    height: 100vh; 
+
+    /* Fixed background issue on zoom */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url('mon.jpg') no-repeat center center;
+    background-size: cover; 
+}
+
+.welcome-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.welcome-content h1 {
+    font-size: 47px;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.welcome-content p {
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.login-btn-welcome {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px 50px;
+    border-radius: 30px;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Right Signup Section */
+/* Left Signup Section */
+.signup-section {
+    flex: 1;
+    background-color: #f0f2f5;
+    padding: 10px 40px;       /* same as CSS 1 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; 
+}
+
+/* Logo (exactly CSS 1 look) */
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #000;              /* black text */
+    margin-top: 2px;           /* upar space kam */
+    margin-bottom: 20px;
+    margin-left: 0;            /* CSS1 me left 0 */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+}
+
+.logo .fas {
+    /* Icon default size */
+    color: #4A90E2;
+}
+
+/* Signup Card (Create your account) */
+.signup-form-card {
+    width: 100%;
+    max-width: 420px;          /* CSS1 size */
+    background-color: white;
+    padding: 30px 50px;        /* CSS1 padding */
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;          /* CSS1 position */
+    display: flex;
+    flex-direction: column;
+}
+
+
+.signup-form-card h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group input, .org-dropdown {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Dropdown Icon */
+.org-dropdown {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"><path fill="%23333333" d="M0 0l5 6 5-6z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+
+/* Checkbox */
+.terms-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 14px; 
+}
+
+.terms-checkbox input {
+    margin-right: 8px;
+}
+/* Make checkbox blue */
+.terms-checkbox input[type="checkbox"] {
+    accent-color: #007BFF;  /* Blue */
+}
+
+.terms-checkbox a {
+    color: #007BFF;      /* link color */
+    text-decoration: none;  /* underline remove */
+}
+
+.terms-checkbox a:hover {
+    text-decoration: underline; /* hover pe underline */
+}
+
+/* Buttons */
+.create-account-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-link {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.login-link a {
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.login-link a {
+    color: #4A90E2;
+    text-decoration: none;
+    font-weight: bold;
+}
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .signup-container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .welcome-section {
+        display: none;
+    }
+
+    .logo {
+        align-self: center;
+        margin-left: 0;
+    }
+}
+/* Hide scrollbar */
+.signup-section::-webkit-scrollbar {
+    display: none;
+}
+
+.signup-section {
+    -ms-overflow-style: none;  /* IE/Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+

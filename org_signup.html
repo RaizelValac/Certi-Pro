@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certi-Pro Organization Signup</title>
+    <link rel="stylesheet" href="org_style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="signup-container">
+        
+        <div class="signup-section">
+
+            <div class="logo">
+                <i class="fas fa-cube"></i> Certi-Pro
+            </div>
+
+            <div class="signup-form-card">
+                
+                <h2>Create Your Account</h2>
+                <form id="orgSignupForm">
+
+                    <div class="input-group">
+                        <label for="organizationname">Organization Name</label>
+                        <input type="text" id="organizationname" placeholder="Enter your Organization Name">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="org-type">Organization Type</label>
+                        <select id="org-type" class="org-dropdown">
+                            <option value="" disabled selected>Select type</option>
+                            <option value="school">School</option>
+                            <option value="college">College</option>
+                            <option value="company">University</option>
+                            <option value="company">Workplace</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" placeholder="Enter your Full Name">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email address">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="create-password">Create Password</label>
+                        <input type="password" id="create-password" placeholder="Create your Password">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm Password">
+                    </div>
+                    
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="terms" checked> 
+                        <label for="terms">I agree to the <a href="#">Terms & Conditions</a>.</label>
+                    </div>
+                    
+                    <button type="submit" class="create-account-btn">Create Account</button>
+                </form>
+                
+                <div class="login-link">
+                    Already have an account? <a href="index.html">Log In.</a>
+                </div>
+            </div> 
+        </div>
+
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>Welcome to Certi-Pro</h1>
+                <p>Join our platform and manage your organization <br> effortlessly. <br> Already a member? Log in to continue.</p>
+                <a href="index.html" class="login-btn-welcome">Log In</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. DYNAMICALLY INJECT CSS ---
+        // Adds styles for Eye Icon, Shake Animation, Toast, and Errors
+        const style = document.createElement('style');
+        style.innerHTML = `
+            /* Password Toggle Icon Styles */
+            .password-wrapper { position: relative; width: 100%; }
+            .toggle-password {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #666;
+                z-index: 10;
+            }
+            
+            /* Caps Lock Warning Styles */
+            .caps-warning {
+                color: #ff9800;
+                font-size: 12px;
+                display: none;
+                margin-top: 5px;
+                align-items: center;
+                gap: 5px;
+            }
+
+            /* Error Red Border Style */
+            .input-error { border: 1px solid #ff4b5c !important; }
+            
+            /* Shake Animation Keyframes */
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+            .shake-anim { animation: shake 0.4s ease-in-out; }
+
+            /* Toast Notification Styles */
+            #custom-toast {
+                visibility: hidden;
+                min-width: 250px;
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                border-radius: 5px;
+                padding: 16px;
+                position: fixed;
+                z-index: 1000;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 14px;
+                opacity: 0;
+                transition: opacity 0.5s, bottom 0.5s;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            }
+            #custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+            #custom-toast.error { background-color: #ff4b5c; }
+            #custom-toast.success { background-color: #2ecc71; }
+        `;
+        document.head.appendChild(style);
+
+        // --- 2. SETUP DOM ELEMENTS ---
+        const orgForm = document.getElementById('orgSignupForm');
+        // Collect all inputs into an object for easy access
+        const inputs = {
+            orgName: document.getElementById('organizationname'),
+            orgType: document.getElementById('org-type'),
+            fullName: document.getElementById('fullname'),
+            email: document.getElementById('email'),
+            password: document.getElementById('create-password'),
+            confirmPassword: document.getElementById('confirm-password')
+        };
+        const termsCheckbox = document.getElementById('terms');
+        const createBtn = document.querySelector('.create-account-btn');
+        const formCard = document.querySelector('.signup-form-card');
+
+        // Create Toast Notification Container
+        const toastDiv = document.createElement('div');
+        toastDiv.id = 'custom-toast';
+        document.body.appendChild(toastDiv);
+
+        // --- 3. PASSWORD ENHANCEMENTS (For BOTH Password Fields) ---
+        [inputs.password, inputs.confirmPassword].forEach(input => {
+            if (!input) return;
+
+            // Wrap input to position the eye icon
+            const parent = input.parentNode;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'password-wrapper';
+            parent.insertBefore(wrapper, input);
+            wrapper.appendChild(input);
+
+            // Add Eye Icon
+            const toggleIcon = document.createElement('i');
+            toggleIcon.className = 'fas fa-eye toggle-password';
+            wrapper.appendChild(toggleIcon);
+
+            // Toggle Visibility Logic
+            toggleIcon.addEventListener('click', () => {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                toggleIcon.classList.toggle('fa-eye');
+                toggleIcon.classList.toggle('fa-eye-slash');
+            });
+
+            // Add Caps Lock Warning (Mainly for create password)
+            if (input.id === 'create-password') {
+                const capsWarning = document.createElement('div');
+                capsWarning.className = 'caps-warning';
+                capsWarning.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Caps Lock is ON';
+                parent.appendChild(capsWarning);
+
+                input.addEventListener('keyup', (event) => {
+                    if (event.getModifierState("CapsLock")) {
+                        capsWarning.style.display = 'flex';
+                    } else {
+                        capsWarning.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // --- 4. HELPER FUNCTIONS ---
+        function showToast(message, type = 'default') {
+            toastDiv.innerText = message;
+            toastDiv.className = 'show ' + type;
+            setTimeout(() => { toastDiv.className = toastDiv.className.replace('show', ''); }, 3000);
+        }
+
+        function validateEmail(email) {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
+        // Clean error styles on input (works for Select dropdown too)
+        Object.values(inputs).forEach(input => {
+            if(input) {
+                input.addEventListener('input', () => input.classList.remove('input-error'));
+                input.addEventListener('change', () => input.classList.remove('input-error')); // For Select
+            }
+        });
+
+        // --- 5. SUBMIT LOGIC ---
+        orgForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let hasError = false;
+            let firstErrorMsg = "";
+
+            // 1. Empty Check (Includes Org Name & Org Type)
+            for (const key in inputs) {
+                if (!inputs[key].value || inputs[key].value.trim() === '') {
+                    inputs[key].classList.add('input-error');
+                    hasError = true;
+                    if (!firstErrorMsg) firstErrorMsg = "Please fill in all fields";
+                }
+            }
+
+            // 2. Email Validation
+            if (!hasError && !validateEmail(inputs.email.value)) {
+                inputs.email.classList.add('input-error');
+                hasError = true;
+                firstErrorMsg = "Please enter a valid email address";
+            }
+
+            // 3. Password Length
+            if (!hasError && inputs.password.value.length < 6) {
+                inputs.password.classList.add('input-error');
+                hasError = true;
+                firstErrorMsg = "Password must be at least 6 characters";
+            }
+
+            // 4. Password Match
+            if (!hasError && inputs.password.value !== inputs.confirmPassword.value) {
+                inputs.confirmPassword.classList.add('input-error');
+                hasError = true;
+                firstErrorMsg = "Passwords do not match";
+            }
+
+            // 5. Terms Checkbox
+            if (!hasError && !termsCheckbox.checked) {
+                hasError = true;
+                firstErrorMsg = "Please agree to the Terms & Conditions";
+            }
+
+            // --- ERROR HANDLING ---
+            if (hasError) {
+                showToast(firstErrorMsg, 'error');
+                return;
+            }
+
+            // --- SUCCESS HANDLING ---
+            createBtn.disabled = true;
+            createBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+
+            setTimeout(() => {
+                showToast('Organization Account Created!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'verify.html';
+                }, 1000);
+            }, 1500);
+        });
+        
+        // --- 6. EXISTING BUTTON REDIRECT ---
+        const loginBtnWelcome = document.querySelector('.login-btn-welcome');
+        if (loginBtnWelcome) {
+            loginBtnWelcome.addEventListener('click', function(e) {
+                 // Allow default behavior (link)
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

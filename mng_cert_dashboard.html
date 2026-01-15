@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certi-Pro | Manage Users</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+/* ================= BODY ================= */
+body{
+  background:#F4F5F7;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  color:#172B4D;
+}
+
+/* ================= NAVBAR (UNCHANGED) ================= */
+.navbar{
+  background-color:#F4F5F7;
+  padding-top:1rem;
+  padding-bottom:1rem;
+}
+
+.navbar-brand{
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  margin-left:20px;
+}
+
+.brand-icon{
+  color:#4A90E2 !important;
+  font-size:26px !important;
+  margin-right:10px;
+}
+
+.navbar-brand span.fs-5{
+  font-size:26px !important;
+}
+
+.nav-link{
+  color:#172B4D;
+  font-weight:500;
+  margin-left:20px;
+  font-size:1rem;
+}
+
+.nav-icons .fa-icon {
+   font-size: 1.2rem;
+   margin-left: 25px;
+   color: #42526E;
+   cursor: pointer;
+}
+
+/* ================= HEADER ================= */
+.back-link{
+  color:#4C9AFF;
+  text-decoration:none;
+  font-weight:500;
+  display:inline-block;
+  margin-bottom:1rem;
+}
+.page-title{
+  font-weight:800;
+  margin-bottom:.5rem;
+}
+.page-subtitle{
+  color:#6B778C;
+  font-size:.9rem;
+  margin-bottom:2rem;
+}
+
+/* ================= SEARCH & FILTER ================= */
+.search-input{
+  background:#fff;
+  border:1px solid #DFE1E6;
+  border-radius:8px;
+  padding:.6rem 1rem;
+  max-width:300px;
+}
+.filter-btn{
+  background:#fff;
+  border:1px solid #DFE1E6;
+  color:#42526E;
+  font-weight:600;
+  font-size:.85rem;
+  padding:.6rem 1.5rem;
+  border-radius:8px;
+  margin-left:10px;
+}
+
+/* ================= TABLE ================= */
+.manage-table{
+  margin-top:30px;
+}
+
+.table-head{
+  display:grid;
+  grid-template-columns:2fr 2fr 1.3fr 2fr 1.5fr .8fr;
+  background:#fff;
+  padding:16px 20px;
+  border-radius:14px;
+  font-size:1.1rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  margin-bottom:14px;
+}
+
+.table-row{
+  display:grid;
+  grid-template-columns:2fr 2fr 1.3fr 2fr 1.5fr .8fr;
+  align-items:center;
+  background:#fff;
+  padding:18px 20px;
+  border-radius:14px;
+  margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,.05);
+  transition:.25s;
+}
+.table-row:hover{transform:scale(1.01);}
+
+.status{font-weight:600;font-size:.85rem;}
+.status.certified{color:#22C55E;}
+.status.pending{color:#F59E0B;}
+.status.not {color:#EF4444;}
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:14px;
+}
+.actions i{cursor:pointer;color:#42526E;}
+.actions i:hover{color:#000;}
+
+@media(max-width:768px){
+  .table-head{display:none;}
+  .table-row{grid-template-columns:1fr;gap:8px;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR (SAME AS YOUR CODE) -->
+<!-- ================= HEADER / NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid px-4">
+    
+    <!-- LOGO -->
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark" href="#">
+      <i class="fas fa-cube brand-icon"></i>
+      <span class="fs-5">Certi-Pro</span>
+    </a>
+
+    <!-- MENU + ICONS -->
+    <div class="collapse navbar-collapse justify-content-end">
+      
+      <!-- NAV LINKS -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="org_dashboard.html">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="mng_cert_dashboard.html">Manage Certificates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="mng_prgrm_dashboard.html">Manage Programs</a>
+        </li>
+        
+      </ul>
+
+      <!-- RIGHT ICONS -->
+      <div class="ms-3 d-flex align-items-center gap-3">
+        <button class="btn border-0">
+          <i class="far fa-bell fs-4"></i>
+        </button>
+        <a href="organization_profile.html" class="btn border-0">
+    <i class="far fa-user-circle fs-4"></i>
+</a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+<!-- ================= END HEADER ================= -->
+
+
+<!-- CONTENT -->
+<div class="container py-4">
+
+<a href="org_dashboard.html" class="back-link"><i class="fas fa-arrow-left me-2"></i>Back</a>
+<h2 class="page-title">Manage Certificates</h2>
+<p class="page-subtitle">View, manage and organize certificates</p>
+
+<div class="row align-items-center mb-4">
+<div class="col-md-6">
+<input class="form-control search-input" placeholder="Search...">
+</div>
+<div class="col-md-6 d-flex justify-content-end">
+<button class="filter-btn">Issue Certificate</button>
+<button class="filter-btn">All</button>
+<button class="filter-btn">Recent</button>
+</div>
+</div>
+
+<!-- TABLE -->
+<div class="manage-table">
+<div class="table-head">
+<div>Candidate Name</div>
+
+<div>Courses</div>
+<div>Date Added</div>
+<div></div>
+</div>
+
+<div class="table-row">
+<div class="fw-semibold">Rida Haroon</div>
+
+<div>SQL Basics</div>
+<div>Jan 14, 2023</div>
+<div class="actions">
+<i class="fa-regular fa-pen-to-square"></i>
+<i class="fa-regular fa-trash-can"></i>
+</div>
+</div>
+
+<div class="table-row">
+<div class="fw-semibold">Ahmed Baloch</div>
+
+<div>Python</div>
+<div>Jan 14, 2023</div>
+<div class="actions">
+<i class="fa-regular fa-pen-to-square"></i>
+<i class="fa-regular fa-trash-can"></i>
+</div>
+</div>
+
+<div class="table-row">
+<div class="fw-semibold">Rida Haroon</div>
+
+<div>Sftware Testing</div>
+<div>Jan 14, 2023</div>
+<div class="actions">
+<i class="fa-regular fa-pen-to-square"></i>
+<i class="fa-regular fa-trash-can"></i>
+</div>
+</div>
+
+<div class="table-row">
+<div class="fw-semibold">Rida Haroon</div>
+
+<div>SQL Basics</div>
+<div>Jan 14, 2023</div>
+<div class="actions">
+<i class="fa-regular fa-pen-to-square"></i>
+<i class="fa-regular fa-trash-can"></i>
+</div>
+</div>
+
+<div class="table-row">
+<div class="fw-semibold">Rida Haroon</div>
+
+<div>c++</div>
+<div>Jan 14, 2023</div>
+<div class="actions">
+<i class="fa-regular fa-pen-to-square"></i>
+<i class="fa-regular fa-trash-can"></i>
+</div>
+</div>
+
+<div class="table-row">
+<div class="fw-semibold">Rida Haroon</div>
+
+<div>.Net</div>
+<div>Jan 14, 2023</div>
+<div class="actions">
+<i class="fa-regular fa-pen-to-square"></i>
+<i class="fa-regular fa-trash-can"></i>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const searchInput = document.querySelector('.search-input');
+  const rows = document.querySelectorAll('.table-row');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  /* =========================
+     1️⃣ SEARCH FUNCTION
+  ========================= */
+  if (searchInput) {
+    searchInput.addEventListener('keyup', () => {
+      const value = searchInput.value.toLowerCase();
+      rows.forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(value)
+          ? 'grid'
+          : 'none';
+      });
+    });
+  }
+
+  /* =========================
+     2️⃣ FILTER BUTTONS
+  ========================= */
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+
+      const text = btn.innerText.trim();
+
+      // ---------------------------------------✅ ISSUE CERTIFICATE (frontend demo)
+if (text === 'Issue Certificate') {
+  rows.forEach(row => {
+    const status = row.querySelector('.status');
+
+    // sirf Pending / Not Certified ko issue kare
+    if (!status.classList.contains('certified')) {
+      status.innerText = 'Certified';
+      status.className = 'status certified';
+    }
+  });
+
+  alert('Certificates issued successfully (demo)');
+}
+// ---------------------------------------✅ ISSUE CERTIFICATE (frontend demo)
+
+
+      // Add Candidate (demo)
+      if (text === 'Add Candidate') {
+        alert('Add Candidate form (frontend demo)');
+        return;
+      }
+
+      // All
+      if (text === 'All') {
+        rows.forEach(r => r.style.display = 'grid');
+      }
+
+      // Recent (demo: show last 2)
+      if (text === 'Recent') {
+        rows.forEach((row, index) => {
+          row.style.display = index >= rows.length - 2 ? 'grid' : 'none';
+        });
+      }
+    });
+  });
+
+  /* =========================
+     3️⃣ EDIT & DELETE ICONS
+  ========================= */
+  document.querySelectorAll('.fa-pen-to-square').forEach(icon => {
+    icon.addEventListener('click', () => {
+      alert('Edit candidate (frontend demo)');
+    });
+  });
+
+  document.querySelectorAll('.fa-trash-can').forEach(icon => {
+    icon.addEventListener('click', () => {
+      if (confirm('Delete this candidate? (demo)')) {
+        icon.closest('.table-row').remove();
+      }
+    });
+  });
+
+  /* =========================
+     4️⃣ NAV ICONS
+  ========================= */
+  const bell = document.querySelector('.fa-bell');
+  const user = document.querySelector('.fa-user-circle');
+
+  if (bell) {
+    bell.addEventListener('click', () => {
+      alert('No new notifications (demo)');
+    });
+  }
+
+  
+
+});
+</script>
+
+
+
+</body>
+</html>

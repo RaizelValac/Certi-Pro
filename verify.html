@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certi-Pro Verify</title>
+    <link rel="stylesheet" href="verify_style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="verify-container">
+        
+        <div class="verify-section">
+            
+            <div class="logo">
+                <i class="fas fa-cube"></i> Certi-Pro
+            </div>
+            
+            <div class="verify-card">
+                <h2>Verification Code</h2>
+                <p class="instruction-text">
+                    We've sent a verification code to your registered email address. Enter it below to verify and activate your account.
+                </p>
+
+                <form class="code-input-form">
+                    <div class="code-inputs">
+                        <input type="text" maxlength="1" class="code-box">
+                        <input type="text" maxlength="1" class="code-box">
+                        <input type="text" maxlength="1" class="code-box">
+                        <span class="code-divider">-</span>
+                        <input type="text" maxlength="1" class="code-box">
+                        <input type="text" maxlength="1" class="code-box">
+                        <input type="text" maxlength="1" class="code-box">
+                    </div>
+
+                    <button type="submit" class="verify-btn">Resend Code</button> </form>
+            </div>
+            
+        </div>
+
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>Hello, There!</h1>
+                <p>Learn. Certify. Grow with confidence <br> — your journey begins here.</p>
+            </div>
+        </div>
+
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. DYNAMICALLY INJECT CSS (Same as before) ---
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .input-error { border: 1px solid #ff4b5c !important; }
+            @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
+            .shake-anim { animation: shake 0.4s ease-in-out; }
+            #custom-toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 16px; position: fixed; z-index: 1000; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 14px; opacity: 0; transition: opacity 0.5s, bottom 0.5s; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+            #custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+            #custom-toast.error { background-color: #ff4b5c; }
+            #custom-toast.success { background-color: #2ecc71; }
+            #custom-toast.info { background-color: #4e54c8; }
+        `;
+        document.head.appendChild(style);
+
+        const inputs = document.querySelectorAll('.code-box');
+        const verifyBtn = document.querySelector('.verify-btn');
+        const form = document.querySelector('.code-input-form');
+        const verifyCard = document.querySelector('.verify-card');
+        const toastDiv = document.createElement('div');
+        toastDiv.id = 'custom-toast';
+        document.body.appendChild(toastDiv);
+
+        function showToast(message, type = 'default') {
+            toastDiv.innerText = message;
+            toastDiv.className = 'show ' + type;
+            setTimeout(() => { toastDiv.className = toastDiv.className.replace('show', ''); }, 3000);
+        }
+
+        // --- RESEND TIMER LOGIC ---
+        let timeLeft = 30;
+        let timerId;
+        function startTimer() {
+            timeLeft = 30;
+            verifyBtn.disabled = true;
+            clearInterval(timerId);
+            timerId = setInterval(() => {
+                timeLeft--;
+                verifyBtn.innerText = `Resend Code (${timeLeft}s)`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    verifyBtn.innerText = 'Resend Code';
+                    verifyBtn.disabled = false;
+                }
+            }, 1000);
+        }
+        startTimer();
+
+        // --- RESEND OTP LOGIC ---
+        verifyBtn.addEventListener('click', async (e) => {
+            if (!verifyBtn.disabled) {
+                e.preventDefault();
+                const email = localStorage.getItem('pendingEmail');
+                try {
+                    // CHANGED URL: /resend-code
+                    const response = await fetch('http://localhost:5000/api/auth/resend-code', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    showToast('A new code has been sent!', 'info');
+                    startTimer();
+                } catch (err) {
+                    showToast('Failed to resend code', 'error');
+                }
+            }
+        });
+
+        // --- INPUT FIELD LOGIC (Navigation/Paste) ---
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                input.value = input.value.replace(/[^0-9]/g, '');
+                if (input.value.length === 1) {
+                    input.classList.remove('input-error');
+                    if (index < inputs.length - 1) inputs[index + 1].focus();
+                    else attemptVerify();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value === '' && index > 0) inputs[index - 1].focus();
+            });
+        });
+
+        // --- REAL VERIFICATION LOGIC ---
+        async function attemptVerify() {
+            let code = '';
+            inputs.forEach(input => code += input.value);
+            if (code.length < 6) return;
+
+            const email = localStorage.getItem('pendingEmail');
+            if (!email) {
+                showToast('Email not found. Signup again.', 'error');
+                return;
+            }
+
+            verifyBtn.innerText = 'Verifying...';
+            verifyBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/verify-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: email, 
+                        code: code // CHANGED: 'otp' ki jagah 'code'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showToast('Account Verified!', 'success');
+                    // Token save karein taake user login ho jaye
+                    localStorage.setItem('token', result.data.token);
+                    localStorage.removeItem('pendingEmail'); 
+                    setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+                } else {
+                    showToast(result.message || 'Verification Failed', 'error');
+                    verifyCard.classList.add('shake-anim');
+                    inputs.forEach(input => { input.classList.add('input-error'); input.value = ''; });
+                    inputs[0].focus();
+                    setTimeout(() => verifyCard.classList.remove('shake-anim'), 400);
+                }
+            } catch (error) {
+                showToast('Server connection failed!', 'error');
+            } finally {
+                if(timeLeft <= 0) {
+                    verifyBtn.innerText = 'Resend Code';
+                    verifyBtn.disabled = false;
+                }
+            }
+        }
+        form.addEventListener('submit', (e) => e.preventDefault());
+    });
+</script>
+
+
+</body>
+</html>

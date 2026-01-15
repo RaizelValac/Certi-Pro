@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certi-Pro User Signup</title>
+    <link rel="stylesheet" href="signup_style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="signup-container">
+        
+        <div class="signup-section">
+
+    <div class="logo">
+        <i class="fas fa-cube"></i> Certi-Pro
+    </div>
+
+    <div class="signup-form-card">
+        
+
+                
+                <h2>Create Your Account</h2>
+                <form id="userSignupForm"> 
+                    <div class="input-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" placeholder="Enter your Full Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email address">
+                    </div>
+                    <div class="input-group">
+                        <label for="create-password">Create Password</label>
+                        <input type="password" id="create-password" placeholder="Create your Password">
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm Password">
+                    </div>
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms & Conditions</a>.</label>
+                    </div>
+                    <button type="submit" class="create-account-btn">Create Account</button>
+                </form>
+                
+                <div class="login-link">
+                    Already have an account? <a href="index.html">Log in.</a>
+                </div>
+            </div> </div>
+
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>Hello, There!</h1>
+                <p>Enter your personal details <br> and start journey with us. <br> Or</p>
+                <a href="index.html" class="login-btn">Log In</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. DYNAMICALLY INJECT CSS ---
+        // Adds styles for Eye Icon, Shake Animation, Toast, and Errors
+        const style = document.createElement('style');
+        style.innerHTML = `
+            /* Password Toggle Icon Styles */
+            .password-wrapper { position: relative; width: 100%; }
+            .toggle-password {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #666;
+                z-index: 10;
+            }
+            
+            /* Caps Lock Warning Styles */
+            .caps-warning {
+                color: #ff9800;
+                font-size: 12px;
+                display: none;
+                margin-top: 5px;
+                align-items: center;
+                gap: 5px;
+            }
+
+            /* Error Red Border Style */
+            .input-error { border: 1px solid #ff4b5c !important; }
+            
+            /* Shake Animation Keyframes */
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+            .shake-anim { animation: shake 0.4s ease-in-out; }
+
+            /* Toast Notification Styles */
+            #custom-toast {
+                visibility: hidden;
+                min-width: 250px;
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                border-radius: 5px;
+                padding: 16px;
+                position: fixed;
+                z-index: 1000;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 14px;
+                opacity: 0;
+                transition: opacity 0.5s, bottom 0.5s;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            }
+            #custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+            #custom-toast.error { background-color: #ff4b5c; }
+            #custom-toast.success { background-color: #2ecc71; }
+        `;
+        document.head.appendChild(style);
+
+        // --- 2. SETUP DOM ELEMENTS ---
+        const signupForm = document.getElementById('userSignupForm');
+        const inputs = {
+            fullname: document.getElementById('fullname'),
+            email: document.getElementById('email'),
+            password: document.getElementById('create-password'),
+            confirmPassword: document.getElementById('confirm-password')
+        };
+        const termsCheckbox = document.getElementById('terms');
+        const createBtn = document.querySelector('.create-account-btn');
+        const formCard = document.querySelector('.signup-form-card');
+
+        // Create Toast Notification Container
+        const toastDiv = document.createElement('div');
+        toastDiv.id = 'custom-toast';
+        document.body.appendChild(toastDiv);
+
+        // --- 3. PASSWORD ENHANCEMENTS (For BOTH Password Fields) ---
+        [inputs.password, inputs.confirmPassword].forEach(input => {
+            if (!input) return;
+
+            // Wrap input to position the eye icon
+            const parent = input.parentNode;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'password-wrapper';
+            parent.insertBefore(wrapper, input);
+            wrapper.appendChild(input);
+
+            // Add Eye Icon
+            const toggleIcon = document.createElement('i');
+            toggleIcon.className = 'fas fa-eye toggle-password';
+            wrapper.appendChild(toggleIcon);
+
+            // Toggle Visibility Logic
+            toggleIcon.addEventListener('click', () => {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                toggleIcon.classList.toggle('fa-eye');
+                toggleIcon.classList.toggle('fa-eye-slash');
+            });
+
+            // Add Caps Lock Warning (Only for main password field usually, but good for both)
+            if (input.id === 'create-password') {
+                const capsWarning = document.createElement('div');
+                capsWarning.className = 'caps-warning';
+                capsWarning.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Caps Lock is ON';
+                parent.appendChild(capsWarning);
+
+                input.addEventListener('keyup', (event) => {
+                    if (event.getModifierState("CapsLock")) {
+                        capsWarning.style.display = 'flex';
+                    } else {
+                        capsWarning.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // --- 4. HELPER FUNCTIONS ---
+        function showToast(message, type = 'default') {
+            toastDiv.innerText = message;
+            toastDiv.className = 'show ' + type;
+            setTimeout(() => { toastDiv.className = toastDiv.className.replace('show', ''); }, 3000);
+        }
+
+        function validateEmail(email) {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
+        // Clean error styles on input
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', () => input.classList.remove('input-error'));
+        });
+
+        // --- 5. REAL SUBMIT LOGIC (API INTEGRATION UPDATED) ---
+signupForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const fullName = inputs.fullname.value.trim(); // Variable name documentation ke mutabiq
+    const email = inputs.email.value.trim();
+    const password = inputs.password.value.trim();
+    const confirmPassword = inputs.confirmPassword.value.trim();
+
+    // Validation Checks
+    if (!fullName || !email || !password || !confirmPassword) {
+        showToast("Please fill in all fields", 'error');
+        return;
+    }
+    if (password !== confirmPassword) {
+        showToast("Passwords do not match", 'error');
+        inputs.confirmPassword.classList.add('input-error');
+        return;
+    }
+    if (!termsCheckbox.checked) {
+        showToast("Please agree to the Terms & Conditions", 'error');
+        return;
+    }
+
+    // Button Loading State
+    createBtn.disabled = true;
+    createBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+
+    try {
+        // Documentation Section 5.1 ke mutabiq updated request
+        const response = await fetch('http://localhost:5000/api/auth/register/user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                fullName: fullName,       // 'name' ki jagah 'fullName'
+                email: email,
+                password: password,
+                confirmPassword: confirmPassword, // Password confirmation bhejna zaroori hai
+                termsAccepted: "true"     // String format mein "true"
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showToast('Account Created! Check your email for OTP.', 'success');
+            
+            // Email save karein taake verify.html par use ho sake
+            localStorage.setItem('pendingEmail', email);
+
+            setTimeout(() => {
+                window.location.href = 'verify.html'; 
+            }, 1500);
+        } else {
+            showToast(result.message || 'Signup failed', 'error');
+        }
+
+    } catch (error) {
+        showToast('Server connection failed!', 'error');
+        console.error("Signup Error:", error);
+    } finally {
+        createBtn.disabled = false;
+        createBtn.innerText = 'Create Account';
+    }
+});
+        
+        // --- 6. EXISTING BUTTON REDIRECT (Preserved) ---
+        const loginBtn = document.querySelector('.login-btn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', function(e) {
+                // Allow default link behavior or redirect via JS
+                // window.location.href = 'index.html'; 
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

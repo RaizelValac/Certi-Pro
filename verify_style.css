@@ -1,0 +1,204 @@
+/* Global Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Global Height Fix */
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #f0f2f5; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container - Full Screen Fit */
+.verify-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+/* --- Left Section (Verification Form) --- */
+.verify-section {
+    flex: 1; 
+    background-color: #f0f2f5;
+    padding: 10px 40px;        /* same as signup CSS1 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; 
+    position: relative;
+}
+
+/* Logo (exactly like signup page) */
+.verify-section .logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #000;               /* black text */
+    margin-top: 2px;           /* very top */
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+}
+
+.verify-section .logo .fas {
+    color: #4A90E2;            /* icon color same */
+}
+
+/* Verification Card (like signup card) */
+.verify-card {
+    background-color: white;
+    width: 100%;
+    max-width: 420px;          /* same as signup card */
+    padding: 100px 50px;        /* same as signup card */
+    border-radius: 15px;       /* same */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* same shadow */
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;          /* same as signup card */
+    text-align: center;
+}
+
+/* Card Heading */
+.verify-card h2 {
+    font-size: 36px;           /* same as signup form h2 */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center; 
+}
+
+/* Instruction Text (Optional, like signup description) */
+.instruction-text {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80%;
+}
+
+/* Code Input Styling */
+.code-inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;       /* compact spacing like signup form inputs */
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.code-box {
+    width: 40px; 
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.code-box:focus {
+    border-color: #4A90E2;
+}
+
+/* Verify Button (like create account button) */
+.verify-btn { 
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;           /* small spacing from code input */
+}
+
+.verify-btn:hover {
+    background-color: #0056b3;
+}
+
+/* --- Right Section (Hello, There! - Blue Background) --- */
+.welcome-section {
+    flex: 1; 
+    color: white;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('mon.jpg') no-repeat center center/cover; 
+}
+
+.welcome-section h1 {
+    font-size: 55px;  /* same as signup */
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.welcome-section p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .verify-container {
+        flex-direction: column;
+        width: 90%;
+        max-width: 400px;
+        min-height: auto;
+    }
+
+    .welcome-section {
+        display: none; 
+    }
+
+    .verify-section {
+        padding: 0; 
+        background-color: #f0f2f5;
+    }
+    
+    .verify-section .logo {
+        align-self: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .verify-card {
+        margin-top: 20px;
+        max-width: 100%; 
+        padding: 30px 20px; 
+    }
+    .instruction-text {
+        max-width: 100%;
+    }
+}
+
+/* Hide scrollbar */
+.verify-section::-webkit-scrollbar {
+    display: none;
+}
+
+.verify-section {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;     
+}
